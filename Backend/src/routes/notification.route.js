@@ -8,7 +8,7 @@ router.use(protect);
 
 router.get('/', getNotifications);
 
-// Helper route to manually trigger a notification (useful for settings toggles)
+// Helper route to manually trigger a notification (useful for settings toggle)
 router.post('/', async (req, res) => {
     try {
         const { title, message, type, link } = req.body;
