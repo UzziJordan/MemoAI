@@ -1,5 +1,5 @@
-export const BASE_URL = 'https://memoai-m7ho.onrender.com';
-export const API_BASE_URL = `${BASE_URL}/api`;
+export const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:5000';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || `${BASE_URL}/api`;
 
 const getHeaders = () => {
     const token = localStorage.getItem('token');
@@ -14,15 +14,22 @@ const getHeaders = () => {
 
 export const api = {
     async get(endpoint) {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-            method: 'GET',
-            headers: getHeaders(),
-        });
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Something went wrong');
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: 'GET',
+                headers: getHeaders(),
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Something went wrong');
+            }
+            return response.json();
+        } catch (error) {
+            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                throw new Error('Server connection failed. Please try again later.');
+            }
+            throw error;
         }
-        return response.json();
     },
 
     async post(endpoint, body, isFormData = false) {
@@ -34,16 +41,23 @@ export const api = {
              }
         }
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-            method: 'POST',
-            headers: headers,
-            body: isFormData ? body : JSON.stringify(body),
-        });
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Something went wrong');
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: 'POST',
+                headers: headers,
+                body: isFormData ? body : JSON.stringify(body),
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Something went wrong');
+            }
+            return response.json();
+        } catch (error) {
+            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                throw new Error('Server connection failed. Please try again later.');
+            }
+            throw error;
         }
-        return response.json();
     },
 
     async patch(endpoint, body, isFormData = false) {
@@ -55,28 +69,42 @@ export const api = {
              }
         }
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-            method: 'PATCH',
-            headers: headers,
-            body: isFormData ? body : JSON.stringify(body),
-        });
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Something went wrong');
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: 'PATCH',
+                headers: headers,
+                body: isFormData ? body : JSON.stringify(body),
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Something went wrong');
+            }
+            return response.json();
+        } catch (error) {
+            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                throw new Error('Server connection failed. Please try again later.');
+            }
+            throw error;
         }
-        return response.json();
     },
 
     async delete(endpoint) {
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-            method: 'DELETE',
-            headers: getHeaders(),
-        });
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Something went wrong');
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: 'DELETE',
+                headers: getHeaders(),
+            });
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message || 'Something went wrong');
+            }
+            return response.json();
+        } catch (error) {
+            if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+                throw new Error('Server connection failed. Please try again later.');
+            }
+            throw error;
         }
-        return response.json();
     },
 };
 
