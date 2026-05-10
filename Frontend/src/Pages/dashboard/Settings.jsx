@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import profileimg from '../../Images/profileimg.svg';
 import Searchbar from '../../Components/Dashboard/Searchbar';
-import { api, auth } from "../../lib/api";
+import { api, auth, BASE_URL } from "../../lib/api";
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiUser, FiMail, FiLock, FiBell, FiShield, FiTrash2, FiSave, FiEdit2, FiX } from "react-icons/fi";
 
@@ -49,7 +49,7 @@ const Settings = () => {
                 if (currentUser.profileImage) {
                     const imagePath = currentUser.profileImage.startsWith('http') 
                         ? currentUser.profileImage 
-                        : `http://localhost:5000${currentUser.profileImage}`;
+                        : `${BASE_URL}${currentUser.profileImage}`;
                     setProfileUrl(imagePath);
                 }
             } catch (error) {
@@ -128,7 +128,7 @@ const Settings = () => {
             const formData = new FormData();
             formData.append('profileImage', file);
             const data = await api.patch('/user/profile-image', formData, true);
-            const newImagePath = `http://localhost:5000${data.profileImage}`;
+            const newImagePath = `${BASE_URL}${data.profileImage}`;
             setProfileUrl(newImagePath);
             setUser({ ...user, profileImage: data.profileImage });
             window.dispatchEvent(new Event('profileUpdate'));

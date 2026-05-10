@@ -7,7 +7,7 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import { FiMic } from "react-icons/fi";
 
 import defaultImage from "../../Images/philip.svg";
-import { auth } from "../../lib/api";
+import { auth, BASE_URL } from "../../lib/api";
 
 
 // ================= CONFIG =================
@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
         if (currentUser.profileImage) {
           const imagePath = currentUser.profileImage.startsWith('http') 
               ? currentUser.profileImage 
-              : `http://localhost:5000${currentUser.profileImage}`;
+              : `${BASE_URL}${currentUser.profileImage}`;
           setProfileUrl(imagePath);
         } else {
           setProfileUrl(defaultImage);

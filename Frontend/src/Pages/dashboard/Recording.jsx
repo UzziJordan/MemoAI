@@ -163,61 +163,12 @@ const VoiceMemoRecorder = () => {
     mediaRecorderRef.current.onstop = () => {
       const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm";
       const blob = new Blob(audioChunksRef.current, { type: mimeType });
-<<<<<<< HEAD
       
       setPreviewBlob(blob);
       setPreviewAudioUrl(URL.createObjectURL(blob));
       setRecordingTitle(`New Memo - ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`);
       setShowPreview(true);
       setRecordingState("READY TO RECORD");
-=======
-
-      try {
-        const user = await account.get();
-        const fileId = ID.unique();
-        
-        // Upload Audio File to Appwrite Storage
-        const file = new File([blob], `recording-${Date.now()}.mp4`, { type: mimeType });
-        await storage.createFile(BUCKET_ID, fileId, file);
-        const fileUrl = storage.getFileView(BUCKET_ID, fileId);;;
-
-        // Prepare Metadata for Database
-        const newRecording = {
-          userId: user.$id,
-          title: `Recording ${new Date().toLocaleTimeString()}`,
-          date: new Date().toISOString(),
-          duration: finalDuration,
-          audioFileId: fileId,
-          audioURL: fileUrl.toString(),
-          tag: "Meeting",
-          transcript: transcript || "No transcript available",
-          summary: transcript ? (transcript.slice(0, 150) + "...") : "No summary available"
-        };
-
-        // Save to Appwrite Database
-        const response = await databases.createDocument(
-          DATABASE_ID,
-          RECORDINGS_COLLECTION_ID,
-          ID.unique(),
-          newRecording
-        );
-
-        // Store in localStorage for immediate access in tabs
-        localStorage.setItem("latestRecording", JSON.stringify(response));
-
-        // Cleanup and Redirect
-        setTimeout(() => {
-          setRecordingTime(0);
-          setRecordingState("READY TO RECORD");
-          navigate("/dashboard/transcript");
-        }, 500);
-
-      } catch (error) {
-        console.error("Save error:", error);
-        alert("Failed to save recording.");
-        setRecordingState("READY TO RECORD");
-      }
->>>>>>> 254b2ae251fb24bf13d63f08f0b23e7602ed844c
     };
 
     mediaRecorderRef.current.stop();
@@ -440,7 +391,7 @@ const VoiceMemoRecorder = () => {
       {/* ================= CONFIRMATION MODAL ================= */}
       <AnimatePresence>
         {showPreview && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
                 
                 {/* Backdrop */}
                 <motion.div 
@@ -456,7 +407,7 @@ const VoiceMemoRecorder = () => {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: 20 }}
                     transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                    className="bg-white w-full max-w-lg rounded-[32px] overflow-hidden shadow-2xl relative z-10"
+                    className="bg-white w-full max-w-lg rounded-4xl overflow-hidden shadow-2xl relative z-10"
                     onClick={(e) => e.stopPropagation()}
                 >
                     
@@ -573,7 +524,7 @@ const VoiceMemoRecorder = () => {
                             whileTap={{ scale: 0.98 }}
                             onClick={handleFinalSave}
                             disabled={isSaving}
-                            className="flex-[2] flex items-center justify-center gap-3 py-4 bg-[#2828FA] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50 shadow-2xl shadow-blue-200"
+                            className="flex-2 flex items-center justify-center gap-3 py-4 bg-[#2828FA] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50 shadow-2xl shadow-blue-200"
                         >
                             {isSaving ? (
                                 <motion.div 

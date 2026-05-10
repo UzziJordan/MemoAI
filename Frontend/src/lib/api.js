@@ -1,4 +1,5 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+export const BASE_URL = 'https://memoai-m7ho.onrender.com';
+export const API_BASE_URL = `${BASE_URL}/api`;
 
 const getHeaders = () => {
     const token = localStorage.getItem('token');
