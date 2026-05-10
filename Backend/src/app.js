@@ -18,7 +18,9 @@ app.use(cors({
   origin: function (origin, callback) {
     // Allow local development and any vercel deployment
     if (!origin || 
-        origin.startsWith("http://localhost") ) {
+        origin.startsWith("http://localhost," || 
+            origin.endsWith(".vercel.app") || 
+            origin.includes("memo-ai")) ) {
       callback(null, true);
     } else {
       callback(null, false);
