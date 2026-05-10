@@ -8,7 +8,9 @@ app.use (express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:5000"
+  "http://localhost:5000",
+  "https://memo-ai-rosy.vercel.app",
+  "https://memoai-m7ho.onrender.com"
 ];
 
 
