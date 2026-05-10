@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geist:wght@100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');@import "tailwindcss";
+
+.text-audiowide {
+  font-family: "Audiowide", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.text-geist {
+  font-family: "Geist", sans-serif;
+}
+
+.text-dm-sans {
+  font-family: "DM Sans", sans-serif;
+}
+.text-instrument-serif {
+  font-family: "Instrument Serif", serif;
+}
+
+.text-instrument-serif-italic {
+  font-family: "Instrument Serif", serif;
+}
+
+.text-jetbrains-mono {
+  font-family: "JetBrains Mono", monospace;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
