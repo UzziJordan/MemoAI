@@ -16,11 +16,12 @@ const allowedOrigins = [
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow local development and any vercel deployment
+    // Allow local development, any Vercel deployment, and Render backend
     if (!origin || 
-        origin.startsWith("http://localhost," || 
-            origin.endsWith(".vercel.app") || 
-            origin.includes("memo-ai")) ) {
+        origin.startsWith("http://localhost") || 
+        origin.endsWith(".vercel.app") || 
+        origin.includes("onrender.com") ||
+        allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(null, false);
