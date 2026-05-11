@@ -33,7 +33,10 @@ exports.createUser = async (req, res) => {
             const existingUser = await User.findOne({ email });
 
             if (existingUser) {
-                return res.status(400).json({ message: 'Email already in use' });
+                if (existingUser.googleId) {
+                    return res.status(400).json({ message: 'Email already exists. Please login with Google.' });
+                }
+                return res.status(400).json({ message: 'Email already exists' });
             }
 
             if (!password) {
@@ -122,10 +125,7 @@ exports.googleAuth = async (req, res) => {
         passwordHash: '' // no password for Google users
       });
     } else if (!user.googleId) {
-      // Link Google account to existing email user
-      user.googleId = googleId;
-      user.profileImage = picture;
-      await user.save();
+      return res.status(400).json({ message: 'Email already exists. Please login with password.' });
     }
 
     // Create your own JWT for the session
