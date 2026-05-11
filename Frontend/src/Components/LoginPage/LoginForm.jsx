@@ -109,6 +109,7 @@ const LoginForm = () => {
                 {/* Google OAuth Button */}
                 <div className="w-full mb-8">
                     <GoogleLogin
+                        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
                         onSuccess={handleGoogleSuccess}
                         onError={() => {
                             console.log('Login Failed');
