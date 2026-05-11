@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaRegEnvelope, FaLock, FaEye, FaEyeSlash, FaUser } from "react-icons/fa";
 import { auth } from '../../lib/api';
 import { motion } from 'framer-motion';
+import { GoogleLogin } from '@react-oauth/google';
 
 /**
  * SignupForm Component
@@ -22,6 +23,19 @@ const SignupForm = () => {
 
     // --- HANDLERS ---
     
+    const handleGoogleSuccess = async (credentialResponse) => {
+        try {
+            setLoading(true);
+            await auth.googleLogin(credentialResponse.credential);
+            navigate("/dashboard");
+        } catch (error) {
+            console.error(error);
+            alert(error.message || "Google Login failed");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     // Handle form submission and account creation
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -103,15 +117,17 @@ const SignupForm = () => {
             <form onSubmit={handleSubmit} className="mt-8">
 
                 {/* Google OAuth Button */}
-                <motion.button
-                    whileHover={{ scale: 1.02, backgroundColor: "#F9FAFB" }}
-                    whileTap={{ scale: 0.98 }}
-                    type="button"
-                    className="w-full border-2 border-[#E5E7EB] text-[14px] font-bold text-[#374151] rounded-xl py-3.5 flex items-center justify-center gap-3 mb-8 transition-colors"
-                >
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5" alt="Google" />
-                    Sign up with Google
-                </motion.button>
+                <div className="w-full mb-8">
+                    <GoogleLogin
+                        onSuccess={handleGoogleSuccess}
+                        onError={() => {
+                            console.log('Login Failed');
+                            alert("Google Login Failed");
+                        }}
+                        useOneTap
+                        width="420"
+                    />
+                </div>
 
                 {/* Form Divider */}
                 <div className='flex justify-between items-center text-center opacity-50'>

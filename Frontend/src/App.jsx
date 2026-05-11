@@ -20,8 +20,6 @@ import SummaryTab from './Pages/dashboard/SummaryTab';
 import ToDoTab from './Pages/dashboard/ToDoTab';
 
 
-
-
 const App = () => {
   return (
     <BrowserRouter>

@@ -2,6 +2,10 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
 
 //Register user 
 
@@ -92,3 +96,55 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.googleAuth = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    // Verify Google ID token
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+
+    const payload = ticket.getPayload();
+    const { email, name, picture, sub: googleId } = payload;
+
+    // Check if user exists
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      // Create new user
+      user = await User.create({
+        email,
+        name,
+        profileImage: picture,
+        googleId,
+        passwordHash: '' // no password for Google users
+      });
+    } else if (!user.googleId) {
+      // Link Google account to existing email user
+      user.googleId = googleId;
+      user.profileImage = picture;
+      await user.save();
+    }
+
+    // Create your own JWT for the session
+    const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '7d'
+    });
+
+    res.json({
+      token: jwtToken,
+      user: {
+        id: user._id,
+        email: user.email,
+        name: user.name,
+        avatar: user.profileImage
+      }
+    });
+
+  } catch (err) {
+    console.error('Google auth error:', err);
+    res.status(401).json({ message: 'Invalid Google token' });
+  }
+};

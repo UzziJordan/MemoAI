@@ -127,6 +127,15 @@ export const auth = {
         return data;
     },
 
+    async googleLogin(token) {
+        const data = await api.post('/auth/google', { token });
+        if (data.token) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+        }
+        return data;
+    },
+
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
