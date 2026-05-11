@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 const Section3 = () => {
     // --- RENDER ---
     return (
-        <div className='bg-[#EFF2F9] mt-18 w-full text-geist h-auto lg:h-125 overflow-hidden'>
+        <div className='bg-[#EFF2F9] mt-18  w-full text-geist h-auto overflow-hidden'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col-reverse justify-center items-center align-middle py-16 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 {/* IMAGE SECTION */}
@@ -19,7 +19,7 @@ const Section3 = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className='w-full max-w-[600px] px-4 md:mt-2'
+                    className='w-full max-w-150 px-4 md:mt-2'
                 >
                     <motion.img 
                         whileHover={{ scale: 1.02 }}

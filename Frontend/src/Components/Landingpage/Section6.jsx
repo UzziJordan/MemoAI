@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 const Section6 = () => {
     // --- RENDER ---
     return (
-        <div className='mt-18 w-full text-geist h-auto lg:h-125 overflow-hidden pb-16 lg:pb-0'>
+        <div className='mt-18 w-full text-geist h-auto overflow-hidden pb-16 lg:pb-0'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col justify-center items-center align-middle py-12 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 {/* CONTENT SECTION */}

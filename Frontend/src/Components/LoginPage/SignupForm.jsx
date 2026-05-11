@@ -73,7 +73,7 @@ const SignupForm = () => {
             variants={formVariants}
             initial="hidden"
             animate="visible"
-            className="bg-white mt-15 pl-10 md:pl-0 py-10 w-105 text-geist"
+            className="bg-white mt-8 pl-10 md:pl-0 py-10 w-105 text-geist"
         >
             
             {/* TOGGLE SECTION: Switch between Sign In and Create Account */}

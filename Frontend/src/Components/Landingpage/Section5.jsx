@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 const Section5 = () => {
     // --- RENDER ---
     return (
-        <div className='bg-[#EFF2F9] mt-18 w-full text-geist h-auto lg:h-125 overflow-hidden pb-16 lg:pb-0'>
+        <div className='bg-[#EFF2F9] mt-18 w-full text-geist h-auto overflow-hidden pb-16 lg:pb-0'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col-reverse justify-center items-center align-middle py-12 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 {/* IMAGE SECTION */}

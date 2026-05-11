@@ -47,13 +47,13 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="max-h-screen lg:h-screen flex flex-col lg:flex-row text-geist overflow-hidden">
+    <div className="max-h-screen overflow-x-hidden lg:h-screen flex flex-col lg:flex-row text-geist">
       {/* Left Section */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className='px-10 md:px-20 pt-20 lg:pt-32 w-full lg:w-1/2 bg-white flex flex-col justify-start'
+        className='px-10 md:px-20 pt-10 lg: w-full lg:w-1/2 bg-white flex flex-col justify-start'
       >
         <motion.div 
           variants={itemVariants}
@@ -72,7 +72,7 @@ const Onboarding = () => {
           <span className='italic text-[#2828FA]'> MemoAI. </span>
         </motion.div>
         
-        <motion.div variants={itemVariants} className='text-[#808080] my-10 font-medium text-[18px] w-full max-w-md leading-relaxed'>
+        <motion.div variants={itemVariants} className='text-[#808080] mt-6 mb-6 font-medium text-[18px] w-full max-w-md leading-relaxed'>
           Your AI-powered meeting companion. Record any conversation and Memo automatically transcribes it, extracts key insights, and creates action items.
         </motion.div>
 
@@ -82,14 +82,14 @@ const Onboarding = () => {
           whileHover={{ scale: 1.02, backgroundColor: "#F9FAFB", borderColor: "#2828FA" }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSignIn}
-          className='flex mt-5 p-6 border-2 rounded-3xl w-full max-w-sm border-[#F3F4F6] gap-4 transition-all text-left cursor-pointer group'
+          className='flex p-4 items-center border-2 rounded-3xl w-full max-w-sm border-[#F3F4F6] gap-4 transition-all text-left cursor-pointer group'
         >
           <div className="p-3 bg-blue-50 text-[#2828FA] rounded-2xl group-hover:bg-[#2828FA] group-hover:text-white transition-colors">
-            <FiUser size={24} />
+            <FiUser size={18} />
           </div>
           <div>
-            <p className='text-gray-400 text-[11px] font-bold uppercase tracking-widest'>Continue as</p>
-            <p className='font-extrabold text-gray-800 text-lg'> {lastUserName || "Guest User"}</p>
+            <p className='text-gray-400 text-[10px] font-bold uppercase tracking-widest'>Continue as</p>
+            <p className='font-extrabold text-gray-800 text-[14px]'> {lastUserName || "Guest User"}</p>
           </div>
         </motion.button>
 
@@ -107,7 +107,7 @@ const Onboarding = () => {
       </motion.div>
 
       {/* Right Section */}
-      <div className="lg:w-1/2 h-full py-20 lg:py-0 flex justify-center items-center bg-[#EAF3FF] relative">
+      <div className="lg:w-1/2 mt-20 lg:mt-0 h-full py-20 lg:py-0 flex justify-center items-center bg-[#EAF3FF] lg:overflow-hidden relative">
         
         <motion.div 
             initial="hidden"
@@ -186,8 +186,6 @@ const Onboarding = () => {
         </motion.div>
 
         {/* Decorative Background Elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/30 rounded-full blur-3xl -mr-32 -mt-32"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
       </div>
     </div>
   );

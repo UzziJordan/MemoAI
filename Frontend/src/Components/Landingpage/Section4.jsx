@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 const Section4 = () => {
     // --- RENDER ---
     return (
-        <div className='mt-18 w-full text-geist h-auto lg:h-125 overflow-hidden'>
+        <div className='mt-18 w-full text-geist h-auto overflow-hidden'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col justify-center items-center align-middle py-16 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 
@@ -86,7 +86,7 @@ const Section4 = () => {
                         src={Cardd2} 
                         alt="img" 
                     />
-                    <div className='absolute bottom-10 left-10 md:left-20'>
+                    <div className='absolute bottom-60 md:bottom-50 left-4 '>
                         <motion.img 
                             animate={{ opacity: [0.5, 1, 0.5] }}
                             transition={{ repeat: Infinity, duration: 2 }}

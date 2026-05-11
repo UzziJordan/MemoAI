@@ -50,7 +50,7 @@ const Section7 = () => {
 
     // --- RENDER ---
     return (
-        <div className='bg-[#EFF2F9] h-auto lg:h-160 px-5 md:pl-25 md:pr-10 flex flex-col pt-16 pb-20 text-geist overflow-hidden'>
+        <div className='bg-[#EFF2F9] h-auto px-5 md:pl-25 md:pr-10 flex flex-col pt-16 pb-20 text-geist overflow-hidden'>
             {/* HEADER SECTION */}
             <div className='w-full max-w-2xl text-center lg:text-start'>
                 <motion.div 

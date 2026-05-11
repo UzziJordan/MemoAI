@@ -61,7 +61,7 @@ const LoginForm = () => {
             variants={formVariants}
             initial="hidden"
             animate="visible"
-            className="bg-[#FFFFFF] mt-15 pl-10 md:pl-0 py-10 w-105 text-geist"
+            className="bg-[#FFFFFF] mt-8 pl-10 md:pl-0 py-10 w-105 text-geist"
         >
 
             {/* TOGGLE SECTION: Switch between Sign In and Create Account */}
