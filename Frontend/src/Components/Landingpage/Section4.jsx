@@ -17,7 +17,7 @@ const Section4 = () => {
             <div className='flex flex-col justify-center items-center align-middle py-16 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 
                 {/* CONTENT SECTION */}
-                <div className='w-full max-w-[450px] px-6 text-center lg:text-left '>
+                <div className='w-full max-w-112.5 px-6 text-center lg:text-left '>
                     {/* HEADING AND DESCRIPTION */}
                     <motion.div 
                         initial={{ opacity: 0, x: -50 }}
@@ -78,7 +78,7 @@ const Section4 = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className='relative w-full max-w-[600px] px-4 h-100'
+                    className='relative w-full max-w-150 px-4 h-100'
                 >
                     <motion.img 
                         whileHover={{ y: -10 }}

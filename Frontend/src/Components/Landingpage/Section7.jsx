@@ -94,7 +94,7 @@ const Section7 = () => {
                         key={idx}
                         variants={cardVariants}
                         whileHover={{ y: -10, scale: 1.02 }}
-                        className={`${idx === 1 ? "bg-white shadow-xl shadow-blue-50" : "bg-transparent border border-[#D4D4FE]"} flex-1 rounded-[32px] p-8 transition-all duration-300 group`}
+                        className={`${idx === 1 ? "bg-white shadow-xl shadow-blue-50" : "bg-transparent border border-[#D4D4FE]"} flex-1 rounded-4xl p-8 transition-all duration-300 group`}
                     >
                         <div className='flex flex-col gap-0'>
                             <motion.p 

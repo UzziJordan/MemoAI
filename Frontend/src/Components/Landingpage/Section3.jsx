@@ -30,7 +30,7 @@ const Section3 = () => {
                 </motion.div>
                 
                 {/* CONTENT SECTION */}
-                <div className='w-full max-w-[450px] px-6 text-center lg:text-left '>
+                <div className='w-full max-w-112.5 px-6 text-center lg:text-left '>
                     {/* BADGE */}
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.9 }}
