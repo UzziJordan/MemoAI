@@ -4,60 +4,62 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 
+const brevo = require('../config/email');
+
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 
 //Register user 
 
 exports.createUser = async (req, res) => {
-    try {
-        const {email, name, password, googleId} = req.body;
+  try {
+    const { email, name, password, googleId } = req.body;
 
-        //create and login with google auth
-        if (googleId) {
-            if (!email) return res.status(400).json({ message: 'Email is required for Google authentication' });
-            let user = await User.findOne({ googleId });
+    //create and login with google auth
+    if (googleId) {
+      if (!email) return res.status(400).json({ message: 'Email is required for Google authentication' });
+      let user = await User.findOne({ googleId });
 
-            if (!user) {
-                user = new User({ email, name, googleId });
-                await user.save();
-            }
+      if (!user) {
+        user = new User({ email, name, googleId });
+        await user.save();
+      }
 
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            const {passwordHash: _, ...userwithoutPassword} = user.toObject();
-            return res.status(200).json({ message: 'User authenticated with Google', token, user: { ...userwithoutPassword } });
-        } 
-        else {
-
-            //create user with email and password
-            const existingUser = await User.findOne({ email });
-
-            if (existingUser) {
-                if (existingUser.googleId) {
-                    return res.status(400).json({ message: 'Email already exists. Please login with Google.' });
-                }
-                return res.status(400).json({ message: 'Email already exists' });
-            }
-
-            if (!password) {
-                return res.status(400).json({ message: 'Password is required' });
-            }
-
-            const passwordHash = await bcrypt.hash(password, 10);
-            const user = new User({ email, name, passwordHash });
-
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            const { passwordHash: _, ...userwithoutPassword } = user.toObject();
-
-            await user.save();
-
-            return res.status(201).json({ message: 'User created successfully', token, user: { ...userwithoutPassword } });
-
-        }
-    } catch (err) {
-        console.error('Error creating user', err);
-        return res.status(500).json({ message: 'Server error' });
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const { passwordHash: _, ...userwithoutPassword } = user.toObject();
+      return res.status(200).json({ message: 'User authenticated with Google', token, user: { ...userwithoutPassword } });
     }
+    else {
+
+      //create user with email and password
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+        if (existingUser.googleId) {
+          return res.status(400).json({ message: 'Email already exists. Please login with Google.' });
+        }
+        return res.status(400).json({ message: 'Email already exists' });
+      }
+
+      if (!password) {
+        return res.status(400).json({ message: 'Password is required' });
+      }
+
+      const passwordHash = await bcrypt.hash(password, 10);
+      const user = new User({ email, name, passwordHash });
+
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const { passwordHash: _, ...userwithoutPassword } = user.toObject();
+
+      await user.save();
+
+      return res.status(201).json({ message: 'User created successfully', token, user: { ...userwithoutPassword } });
+
+    }
+  } catch (err) {
+    console.error('Error creating user', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
 }
 
 //Login user with email and password
@@ -85,6 +87,14 @@ exports.login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
+
+    const result = await brevo.transactionalEmails.sendTransacEmail({
+      subject: 'Hello from Brevo!',
+      htmlContent: '<html><body><p>Hello,</p><p>This is my first transactional email.</p></body></html>',
+      sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+      to: [{ email: user.email, name: user.name }],
+    });
+    console.log('Email sent. Message ID:', result.messageId);
 
     // Create JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
