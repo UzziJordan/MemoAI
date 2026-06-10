@@ -57,7 +57,12 @@ const LoginForm = () => {
 
         } catch (error) {
             console.error(error);
-            alert(error.message || "Login failed");
+            if (error.message.includes("Account not verified") || error.unverified) {
+                localStorage.setItem('pendingVerificationEmail', email);
+                navigate("/verify-otp", { state: { email } });
+            } else {
+                alert(error.message || "Login failed");
+            }
         } finally {
             setLoading(false);
         }

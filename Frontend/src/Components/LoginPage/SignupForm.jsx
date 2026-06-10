@@ -63,9 +63,10 @@ const SignupForm = () => {
 
             // Store name for onboarding
             localStorage.setItem('lastUserName', fullName);
+            localStorage.setItem('pendingVerificationEmail', email);
 
-            // Redirect to login after successful signup
-            navigate("/login");
+            // Redirect to OTP verification after successful signup
+            navigate("/verify-otp", { state: { email } });
 
         } catch (err) {
             console.error(err);

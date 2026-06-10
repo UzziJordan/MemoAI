@@ -21,7 +21,7 @@ exports.createUser = async (req, res) => {
       let user = await User.findOne({ googleId });
 
       if (!user) {
-        user = new User({ email, name, googleId });
+        user = new User({ email, name, googleId, isVerified: true });
         await user.save();
       }
 
@@ -45,15 +45,40 @@ exports.createUser = async (req, res) => {
         return res.status(400).json({ message: 'Password is required' });
       }
 
-      const passwordHash = await bcrypt.hash(password, 10);
-      const user = new User({ email, name, passwordHash });
+      //otp generation for email verification
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      const { passwordHash: _, ...userwithoutPassword } = user.toObject();
+      const passwordHash = await bcrypt.hash(password, 10);
+      const user = new User({ 
+        email, 
+        name, 
+        passwordHash,
+        otp,
+        otpExpires
+      });
 
       await user.save();
 
-      return res.status(201).json({ message: 'User created successfully', token, user: { ...userwithoutPassword } });
+      try {
+        await brevo.transactionalEmails.sendTransacEmail({
+          subject: 'Verify your account',
+          templateId: 4, // Replace with your actual template ID
+          params: {
+            NAME: user.name,
+            otp: otp
+          },
+          sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+          to: [{ email: user.email, name: user.name }],
+        });
+      } catch (emailErr) {
+        console.error('Error sending verification email', emailErr);
+      }
+
+      return res.status(201).json({ 
+        message: 'Registration successful. Please check your email for OTP.',
+        user: { email: user.email, name: user.name } 
+      });
 
     }
   } catch (err) {
@@ -61,6 +86,95 @@ exports.createUser = async (req, res) => {
     return res.status(500).json({ message: 'Server error' });
   }
 }
+
+// Verify OTP
+exports.verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ message: 'User already verified' });
+    }
+
+    if (user.otp !== otp || user.otpExpires < Date.now()) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    user.isVerified = true;
+    user.otp = null;
+    user.otpExpires = null;
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const { passwordHash: _, ...userWithoutPassword } = user.toObject();
+
+    //Welcome email after successful verification
+    try {
+      await brevo.transactionalEmails.sendTransacEmail({
+        subject: 'Welcome to Memo AI!',
+        templateId: 1,
+        params: {
+          NAME: user.name,
+        },
+        sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+        to: [{ email: user.email, name: user.name }],
+      });
+    } catch (emailErr) {
+      console.error('Error sending welcome email', emailErr);
+    }
+
+    res.status(200).json({ message: 'Account verified successfully', token, user: userWithoutPassword });
+  } catch (err) {
+    console.error('Error verifying OTP', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Resend OTP
+exports.resendOTP = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.isVerified) {
+      return res.status(400).json({ message: 'User already verified' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+    user.otp = otp;
+    user.otpExpires = otpExpires;
+    await user.save();
+
+    await brevo.transactionalEmails.sendTransacEmail({
+      subject: 'Your new verification code',
+      templateId: 4, // Replace with your actual template ID
+      params: {
+        NAME: user.name,
+        otp: otp
+      },
+      sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+      to: [{ email: user.email, name: user.name }],
+    });
+
+    res.status(200).json({ message: 'OTP resent successfully' });
+  } catch (err) {
+    console.error('Error resending OTP', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 //Login user with email and password
 exports.login = async (req, res) => {
@@ -77,6 +191,11 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
+    // Check if user is verified
+    if (!user.isVerified) {
+      return res.status(403).json({ message: 'Account not verified. Please verify your email.', unverified: true });
+    }
+
     // If user signed up with Google, they don’t have a password
     if (user.googleId && !user.passwordHash) {
       return res.status(401).json({ message: 'Please login with Google' });
@@ -87,14 +206,6 @@ exports.login = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
-
-    const result = await brevo.transactionalEmails.sendTransacEmail({
-      subject: 'Hello from Brevo!',
-      htmlContent: '<html><body><p>Hello,</p><p>This is my first transactional email.</p></body></html>',
-      sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
-      to: [{ email: user.email, name: user.name }],
-    });
-    console.log('Email sent. Message ID:', result.messageId);
 
     // Create JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });

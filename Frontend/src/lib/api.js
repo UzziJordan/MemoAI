@@ -136,6 +136,19 @@ export const auth = {
         return data;
     },
 
+    async verifyOTP(email, otp) {
+        const data = await api.post('/auth/verify-otp', { email, otp });
+        if (data.token) {
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+        }
+        return data;
+    },
+
+    async resendOTP(email) {
+        return await api.post('/auth/resend-otp', { email });
+    },
+
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
