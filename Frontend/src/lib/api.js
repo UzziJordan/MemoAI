@@ -149,6 +149,14 @@ export const auth = {
         return await api.post('/auth/resend-otp', { email });
     },
 
+    async forgotPassword(email) {
+        return await api.post('/auth/forgot-password', { email });
+    },
+
+    async resetPassword(email, otp, newPassword) {
+        return await api.post('/auth/reset-password', { email, otp, newPassword });
+    },
+
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');

@@ -128,8 +128,7 @@ const Settings = () => {
             const formData = new FormData();
             formData.append('profileImage', file);
             const data = await api.patch('/user/profile-image', formData, true);
-            const newImagePath = `${BASE_URL}${data.profileImage}`;
-            setProfileUrl(newImagePath);
+            setProfileUrl(data.profileImage);
             setUser({ ...user, profileImage: data.profileImage });
             window.dispatchEvent(new Event('profileUpdate'));
             alert("Profile picture updated successfully!");

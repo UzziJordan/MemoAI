@@ -86,15 +86,33 @@ exports.uploadProfileImage = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Store the relative URL path for the frontend
-        const relativePath = `/uploads/${req.file.filename}`;
-        user.profileImage = relativePath;
-        await user.save();
-        
-        res.status(200).json({ 
-            message: 'Profile image updated successfully', 
-            profileImage: user.profileImage 
-        });
+        // Upload to Cloudinary using a stream
+        const uploadStream = cloudinary.uploader.upload_stream(
+            {
+                folder: 'profile_pictures',
+                public_id: `user_${user._id}`,
+                overwrite: true,
+                transformation: [{ width: 500, height: 500, crop: 'limit' }]
+            },
+            async (error, result) => {
+                if (error) {
+                    console.error('Cloudinary upload error:', error);
+                    return res.status(500).json({ message: 'Cloudinary upload failed' });
+                }
+
+                // Update user with Cloudinary secure URL
+                user.profileImage = result.secure_url;
+                await user.save();
+
+                res.status(200).json({ 
+                    message: 'Profile image updated successfully', 
+                    profileImage: user.profileImage 
+                });
+            }
+        );
+
+        streamifier.createReadStream(req.file.buffer).pipe(uploadStream);
+
     } catch (err) {
         console.error('Error uploading profile image', err);
         res.status(500).json({ message: 'Server error' });

@@ -7,6 +7,7 @@ import LoginPage from './Pages/LoginPage';
 import SignupPage from './Pages/SignupPage';
 import ForgotPassword from './Pages/ForgotPassword';
 import OtpVerification from './Pages/OtpVerification';
+import ResetPassword from './Pages/ResetPassword';
 
 import DashboardLayout from './Pages/dashboard/DashboardLayout';
 import Home from './Pages/dashboard/Home';
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="SignupPage" element={<SignupPage />} />
         <Route path="/verify-otp" element={<OtpVerification />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Dashboard Routes */}
         

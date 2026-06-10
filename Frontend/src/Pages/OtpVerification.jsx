@@ -38,9 +38,20 @@ const OtpVerification = () => {
         try {
             setLoading(true);
             setMessage({ type: '', text: '' });
-            await auth.verifyOTP(email, otp);
-            localStorage.removeItem('pendingVerificationEmail');
-            navigate('/dashboard');
+            
+            const context = location.state?.context;
+            
+            if (context === 'forgotPassword') {
+                // For forgot password, we just need to ensure the OTP is correct
+                // We can either have a verify endpoint or just pass it to the reset page
+                // Let's assume we want to verify it first or just trust it'll be verified during reset
+                // To keep it simple and secure, we can pass it to the next page
+                navigate('/reset-password', { state: { email, otp } });
+            } else {
+                await auth.verifyOTP(email, otp);
+                localStorage.removeItem('pendingVerificationEmail');
+                navigate('/dashboard');
+            }
         } catch (err) {
             setMessage({ type: 'error', text: err.message || 'Verification failed' });
         } finally {

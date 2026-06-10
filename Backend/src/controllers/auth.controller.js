@@ -176,6 +176,73 @@ exports.resendOTP = async (req, res) => {
   }
 };
 
+// Forgot Password
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User with this email does not exist' });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+
+    user.otp = otp;
+    user.otpExpires = otpExpires;
+    await user.save();
+
+    try {
+      await brevo.transactionalEmails.sendTransacEmail({
+        subject: 'Reset your password',
+        templateId: 4, // Using the same template for OTP for now
+        params: {
+          NAME: user.name,
+          otp: otp
+        },
+        sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+        to: [{ email: user.email, name: user.name }],
+      });
+    } catch (emailErr) {
+      console.error('Error sending forgot password email', emailErr);
+    }
+
+    res.status(200).json({ message: 'OTP sent to your email' });
+  } catch (err) {
+    console.error('Error in forgotPassword', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Reset Password
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.otp !== otp || user.otpExpires < Date.now()) {
+      return res.status(400).json({ message: 'Invalid or expired OTP' });
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, 10);
+    user.passwordHash = passwordHash;
+    user.otp = null;
+    user.otpExpires = null;
+    user.isVerified = true; // Ensure user is verified if they reset password
+    await user.save();
+
+    res.status(200).json({ message: 'Password reset successful. You can now login.' });
+  } catch (err) {
+    console.error('Error in resetPassword', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 //Login user with email and password
 exports.login = async (req, res) => {
   try {
