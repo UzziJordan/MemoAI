@@ -1,6 +1,6 @@
 const Recording = require('../models/Recordings');
 const User = require('../models/User');
-const cloudinary = require('cloudinary').v2;
+const cloudinary = require('../config/cloudinary');
 const multer = require('multer');
 const streamifier = require('streamifier');
 const axios = require('axios');
@@ -16,13 +16,6 @@ const upload = multer({
     else cb(new Error('Only audio files allowed'));
   },
   limits: { fileSize: 25 * 1024 * 1024 }
-});
-
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 exports.uploadMiddleware = upload.single('audio');

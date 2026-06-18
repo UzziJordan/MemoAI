@@ -13,17 +13,33 @@ const getHeaders = () => {
 };
 
 export const api = {
+    async request(endpoint, options = {}) {
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+        
+        if (response.status === 401) {
+            auth.logout();
+            // Only redirect if we're not already on a public page
+            const publicPages = ['/Login', '/Signup', '/', '/forgot-password', '/reset-password', '/verify-otp'];
+            if (!publicPages.includes(window.location.pathname)) {
+                window.location.href = '/Login';
+            }
+            throw new Error('Session expired. Please login again.');
+        }
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({}));
+            throw new Error(error.message || 'Something went wrong');
+        }
+
+        return response.json();
+    },
+
     async get(endpoint) {
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            return await this.request(endpoint, {
                 method: 'GET',
                 headers: getHeaders(),
             });
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Something went wrong');
-            }
-            return response.json();
         } catch (error) {
             if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
                 throw new Error('Server connection failed. Please try again later.');
@@ -42,16 +58,11 @@ export const api = {
         }
 
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            return await this.request(endpoint, {
                 method: 'POST',
                 headers: headers,
                 body: isFormData ? body : JSON.stringify(body),
             });
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Something went wrong');
-            }
-            return response.json();
         } catch (error) {
             if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
                 throw new Error('Server connection failed. Please try again later.');
@@ -70,16 +81,11 @@ export const api = {
         }
 
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            return await this.request(endpoint, {
                 method: 'PATCH',
                 headers: headers,
                 body: isFormData ? body : JSON.stringify(body),
             });
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Something went wrong');
-            }
-            return response.json();
         } catch (error) {
             if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
                 throw new Error('Server connection failed. Please try again later.');
@@ -90,15 +96,10 @@ export const api = {
 
     async delete(endpoint) {
         try {
-            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+            return await this.request(endpoint, {
                 method: 'DELETE',
                 headers: getHeaders(),
             });
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Something went wrong');
-            }
-            return response.json();
         } catch (error) {
             if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
                 throw new Error('Server connection failed. Please try again later.');
@@ -160,6 +161,7 @@ export const auth = {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('latestRecording');
     },
 
     getCurrentUser() {

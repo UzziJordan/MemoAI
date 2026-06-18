@@ -1,5 +1,7 @@
 const User = require('../models/User');
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const cloudinary = require('../config/cloudinary');
+const streamifier = require('streamifier');
 
 // Get user profile
 exports.getProfile = async (req, res) => {

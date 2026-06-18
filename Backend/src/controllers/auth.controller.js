@@ -48,7 +48,7 @@ exports.createUser = async (req, res) => {
         await sendWelcomeEmail(user);
       }
 
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
       const { passwordHash: _, ...userwithoutPassword } = user.toObject();
       return res.status(200).json({ message: 'User authenticated with Google', token, user: { ...userwithoutPassword } });
     }
@@ -134,7 +134,7 @@ exports.verifyOTP = async (req, res) => {
     user.otpExpires = null;
     await user.save();
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     const { passwordHash: _, ...userWithoutPassword } = user.toObject();
 
     await sendWelcomeEmail(user);
@@ -285,7 +285,7 @@ exports.login = async (req, res) => {
     }
 
     // Create JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
     // Return user without passwordHash
     const { passwordHash: _, ...userWithoutPassword } = user.toObject();

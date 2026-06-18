@@ -56,6 +56,11 @@ const TranscriptTab = () => {
                 }
             } catch (error) {
                 console.error("Error fetching recording:", error);
+                // If recording not found, clear it from localStorage
+                if (error.message.includes('not found')) {
+                    localStorage.removeItem('latestRecording');
+                    setRecording(null);
+                }
             } finally {
                 setLoading(false);
             }
