@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from '../../lib/api';
-import { FiMic, FiTag, FiTrash2, FiSave, FiClock, FiPlay, FiPause } from "react-icons/fi";
+import { FiMic, FiTag, FiTrash2, FiSave, FiClock, FiPlay, FiPause, FiArrowLeft } from "react-icons/fi";
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from "../../context/ThemeContext";
 
 // Icons
 import pauseicon from '../../Images/frrpause.svg';
@@ -20,6 +21,7 @@ const VoiceMemoRecorder = () => {
   const [recordingTime, setRecordingTime] = useState(0);                   
   const [waveformBars, setWaveformBars] = useState(Array(20).fill(20));    
   const [transcript, setTranscript] = useState("");                         
+  const { isDarkMode } = useTheme();
 
   // Confirmation Modal States
   const [showPreview, setShowPreview] = useState(false);
@@ -238,7 +240,25 @@ const VoiceMemoRecorder = () => {
 
   // ================= MAIN UI RENDER =================
   return (
-    <div className="flex items-center justify-center mt-5 font-geist overflow-hidden">
+    <div className="flex flex-col items-center justify-center mt-5 font-geist overflow-hidden relative min-h-[80vh]">
+      
+      {/* BACK BUTTON */}
+      <AnimatePresence>
+        {recordingState === "READY TO RECORD" && (
+            <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                whileHover={{ scale: 1.1, backgroundColor: isDarkMode ? "#1f2937" : "#F3F4F6" }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => navigate(-1)}
+                className="absolute top-5 left-5 p-3 rounded-2xl text-gray-400 hover:text-blue-600 transition-all z-50 border border-transparent hover:border-gray-100 dark:hover:border-gray-800"
+            >
+                <FiArrowLeft size={24} />
+            </motion.button>
+        )}
+      </AnimatePresence>
+
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -249,12 +269,12 @@ const VoiceMemoRecorder = () => {
         <motion.div 
           initial={false}
           animate={{ 
-            backgroundColor: recordingState === "recording" ? "#D4D4FE" : 
-                            recordingState === "paused" ? "#FED3D4" : "#E9E9FF",
-            color: recordingState === "recording" ? "#4C4CFB" : 
-                   recordingState === "paused" ? "#FC464A" : "#808080"
+            backgroundColor: recordingState === "recording" ? (isDarkMode ? "#1e1b4b" : "#D4D4FE") : 
+                            recordingState === "paused" ? (isDarkMode ? "#450a0a" : "#FED3D4") : (isDarkMode ? "#111827" : "#E9E9FF"),
+            color: recordingState === "recording" ? (isDarkMode ? "#818cf8" : "#4C4CFB") : 
+                   recordingState === "paused" ? (isDarkMode ? "#f87171" : "#FC464A") : (isDarkMode ? "#9ca3af" : "#808080")
           }}
-          className="mb-4 text-[18px] font-extrabold flex items-center gap-3 rounded-full px-6 py-2.5 shadow-sm"
+          className="mb-4 text-[18px] font-extrabold flex items-center gap-3 rounded-full px-6 py-2.5 shadow-sm border border-transparent dark:border-gray-800"
         >
           <motion.div 
             animate={{ scale: [1, 1.2, 1], opacity: [1, 0.6, 1] }}
@@ -268,13 +288,30 @@ const VoiceMemoRecorder = () => {
         <div className="relative">
             <AnimatePresence>
                 {recordingState === "recording" && (
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1.4 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ repeat: Infinity, duration: 2 }}
-                        className="absolute inset-0 bg-[#2828FA]/20 rounded-full z-0"
-                    />
+                    <>
+                        {/* Ripple 1 */}
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 1 }}
+                            animate={{ opacity: 0, scale: 2.5 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
+                            className="absolute inset-0 border-2 border-blue-500/30 rounded-full z-0"
+                        />
+                        {/* Ripple 2 */}
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 1 }}
+                            animate={{ opacity: 0, scale: 2 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ repeat: Infinity, duration: 2, delay: 0.6, ease: "easeOut" }}
+                            className="absolute inset-0 border-2 border-blue-400/20 rounded-full z-0"
+                        />
+                        {/* Inner Glow */}
+                        <motion.div 
+                            animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+                            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                            className="absolute inset-0 bg-blue-500/20 dark:bg-blue-600/10 rounded-full z-0 blur-xl"
+                        />
+                    </>
                 )}
             </AnimatePresence>
 
@@ -289,12 +326,18 @@ const VoiceMemoRecorder = () => {
                 initial={false}
                 animate={{ 
                     backgroundColor: recordingState === "paused" ? "#FB2126" : "#2828FA",
-                    rotate: recordingState === "recording" ? [0, 5, -5, 0] : 0
+                    scale: recordingState === "recording" ? [1, 1.03, 1] : 1,
+                    boxShadow: recordingState === "recording" 
+                        ? "0 0 40px rgba(40, 40, 250, 0.4)" 
+                        : "0 20px 40px rgba(0,0,0,0.15)"
                 }}
-                transition={{ rotate: { repeat: Infinity, duration: 2 } }}
+                transition={{ 
+                    scale: { repeat: Infinity, duration: 2, ease: "easeInOut" },
+                    backgroundColor: { duration: 0.3 }
+                }}
                 src={recordingState === "paused" ? pauseicon : recordicon}
                 alt="recorder button"
-                className="rounded-full p-16 shadow-2xl shadow-blue-900/20"
+                className="rounded-full p-16 shadow-2xl transition-all"
             />
             </motion.button>
         </div>
@@ -306,7 +349,7 @@ const VoiceMemoRecorder = () => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="text-sm text-[#555555] font-bold text-center uppercase tracking-widest"
+                    className="text-sm text-[#555555] dark:text-gray-400 font-bold text-center uppercase tracking-widest"
                 >
                     {recordingState === "READY TO RECORD" && "Tap to Start Recording"}
                     {recordingState === "recording" && "Capture is active..."}
@@ -322,20 +365,20 @@ const VoiceMemoRecorder = () => {
             <motion.div 
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-4xl font-black text-gray-800 tracking-tighter"
+                className="text-4xl font-black text-gray-800 dark:text-gray-100 tracking-tighter transition-colors"
             >
                 {formatTime(recordingTime)}
             </motion.div>
             )}
         </div>
 
-        <div className="w-full bg-white rounded-3xl p-6 mt-4 border-2 border-gray-50 shadow-xl shadow-blue-900/5">
+        <div className="w-full bg-white dark:bg-gray-900 rounded-3xl p-6 mt-4 border-2 border-gray-50 dark:border-gray-800 shadow-xl shadow-blue-900/5 dark:shadow-black/20 transition-all duration-300">
           <div className="flex gap-1.5 h-16 items-center justify-center">
             {waveformBars.map((h, i) => (
               <motion.div 
                 key={i} 
                 animate={{ height: `${Math.max(15, h)}%` }}
-                className={`w-2 rounded-full transition-colors duration-300 ${recordingState === 'recording' ? 'bg-[#4C4CFB]' : 'bg-gray-100'}`}
+                className={`w-2 rounded-full transition-colors duration-300 ${recordingState === 'recording' ? 'bg-[#4C4CFB]' : 'bg-gray-100 dark:bg-gray-800'}`}
               />
             ))}
           </div>
@@ -355,7 +398,7 @@ const VoiceMemoRecorder = () => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={recordingState === "recording" ? handlePause : handleResume}
-                        className="px-8 py-3.5 text-[15px] flex items-center gap-3 font-extrabold bg-white text-gray-800 border-2 border-gray-100 rounded-2xl shadow-sm hover:border-blue-200 transition-all"
+                        className="px-8 py-3.5 text-[15px] flex items-center gap-3 font-extrabold bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 border-2 border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm hover:border-blue-200 dark:hover:border-blue-900 transition-all"
                     >
                         {recordingState === "recording" ? 
                         <div className="p-1 bg-gray-800 rounded-lg"><img className="size-3" src={pauseicon} alt="" /></div> : 
@@ -368,7 +411,7 @@ const VoiceMemoRecorder = () => {
                         whileHover={{ scale: 1.05, backgroundColor: "#FB2126" }}
                         whileTap={{ scale: 0.95 }}
                         onClick={handleStop} 
-                        className="px-8 py-3.5 flex items-center gap-3 font-extrabold bg-[#FB2126] text-white rounded-2xl shadow-xl shadow-red-100 transition-all"
+                        className="px-8 py-3.5 flex items-center gap-3 font-extrabold bg-[#FB2126] text-white rounded-2xl shadow-xl shadow-red-100 dark:shadow-red-900/20 transition-all"
                     >
                         <img className="size-5 brightness-200" src={stopicon} alt="" /> STOP
                     </motion.button>
@@ -381,7 +424,7 @@ const VoiceMemoRecorder = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="text-center font-bold mt-8 text-gray-400 text-[10px] uppercase tracking-[0.2em] px-8"
+            className="text-center font-bold mt-8 text-gray-400 dark:text-gray-500 text-[10px] uppercase tracking-[0.2em] px-8"
         >
           <p>Memo AI handles transcription & summarization automatically.</p>
         </motion.div>
@@ -407,29 +450,29 @@ const VoiceMemoRecorder = () => {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: 20 }}
                     transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                    className="bg-white w-full max-w-lg rounded-4xl overflow-hidden shadow-2xl relative z-10"
+                    className="bg-white dark:bg-gray-900 w-full max-w-lg rounded-4xl overflow-hidden shadow-2xl relative z-10 border border-gray-100 dark:border-gray-800"
                     onClick={(e) => e.stopPropagation()}
                 >
                     
                     {/* Modal Header */}
-                    <div className="bg-blue-50/50 p-8 border-b border-gray-100">
-                        <h2 className="text-2xl font-black text-gray-800 tracking-tight">Review Memo</h2>
-                        <p className="text-gray-500 font-bold text-xs uppercase tracking-widest mt-1">Finalize details before AI processing</p>
+                    <div className="bg-blue-50/50 dark:bg-blue-900/10 p-8 border-b border-gray-100 dark:border-gray-800">
+                        <h2 className="text-2xl font-black text-gray-800 dark:text-gray-100 tracking-tight transition-colors">Review Memo</h2>
+                        <p className="text-gray-500 dark:text-gray-400 font-bold text-xs uppercase tracking-widest mt-1">Finalize details before AI processing</p>
                     </div>
 
                     <div className="p-8 space-y-8">
                         
                         {/* Audio Player Card */}
-                        <div className="bg-gray-50 rounded-3xl p-6 border-2 border-gray-100">
+                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-3xl p-6 border-2 border-gray-100 dark:border-gray-800">
                             <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="p-4 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-100">
+                                <div className="p-4 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-100 dark:shadow-blue-900/20">
                                     <FiMic size={24} />
                                 </div>
                                 <div>
-                                    <p className="font-black text-gray-800 tracking-tight">Voice Recording</p>
-                                    <p className="text-xs font-bold text-gray-400 mt-0.5 flex items-center gap-1.5 uppercase">
-                                        <FiClock size={12} className="text-blue-500" /> {formatTime(recordingTime)}
+                                    <p className="font-black text-gray-800 dark:text-gray-100 tracking-tight transition-colors">Voice Recording</p>
+                                    <p className="text-xs font-bold text-gray-400 dark:text-gray-500 mt-0.5 flex items-center gap-1.5 uppercase">
+                                        <FiClock size={12} className="text-blue-500 dark:text-blue-400" /> {formatTime(recordingTime)}
                                     </p>
                                 </div>
                             </div>
@@ -437,7 +480,7 @@ const VoiceMemoRecorder = () => {
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
                                 onClick={togglePreviewPlayback}
-                                className="w-14 h-14 bg-white text-blue-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-900/5 hover:bg-blue-600 hover:text-white transition-all duration-300"
+                                className="w-14 h-14 bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-900/5 dark:shadow-black/20 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-500 transition-all duration-300"
                             >
                                 {isPreviewPlaying ? <FiPause size={28} /> : <FiPlay size={28} className="ml-1" />}
                             </motion.button>
@@ -455,19 +498,19 @@ const VoiceMemoRecorder = () => {
                             
                             {/* Title Input */}
                             <div>
-                                <label className="block text-[10px] font-black text-gray-400 mb-2 uppercase tracking-[0.2em]">Recording Title</label>
+                                <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-[0.2em]">Recording Title</label>
                                 <input 
                                     type="text" 
                                     value={recordingTitle}
                                     onChange={(e) => setRecordingTitle(e.target.value)}
-                                    className="w-full px-6 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-blue-500 focus:bg-white focus:outline-none transition-all font-bold text-gray-800"
+                                    className="w-full px-6 py-4 bg-gray-50 dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl focus:border-blue-500 focus:bg-white dark:focus:bg-gray-900 focus:outline-none transition-all font-bold text-gray-800 dark:text-gray-100"
                                     placeholder="Give your memo a name..."
                                 />
                             </div>
 
                             {/* Tag Selection */}
                             <div>
-                                <label className="block text-[10px] font-black text-gray-400 mb-3 uppercase tracking-[0.2em]">Categorize</label>
+                                <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 mb-3 uppercase tracking-[0.2em]">Categorize</label>
                                 <div className="flex flex-wrap gap-2.5">
                                     {["Meeting", "Lecture", "Conference", "Interview", "Client", "Others"].map((tag) => (
                                     <motion.button
@@ -477,8 +520,8 @@ const VoiceMemoRecorder = () => {
                                         onClick={() => setRecordingTag(tag)}
                                         className={`px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider border-2 transition-all duration-300
                                         ${recordingTag === tag 
-                                            ? "bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-200" 
-                                            : "bg-white border-gray-100 text-gray-400 hover:border-blue-200 hover:text-blue-600"}`}
+                                            ? "bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-200 dark:shadow-blue-900/40" 
+                                            : "bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800 text-gray-400 dark:text-gray-500 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 dark:hover:text-blue-400"}`}
                                     >
                                         {tag}
                                     </motion.button>
@@ -499,7 +542,7 @@ const VoiceMemoRecorder = () => {
                                             type="text" 
                                             value={customTag}
                                             onChange={(e) => setCustomTag(e.target.value)}
-                                            className="w-full px-6 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-blue-500 focus:bg-white focus:outline-none transition-all font-bold"
+                                            className="w-full px-6 py-4 bg-gray-50 dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl focus:border-blue-500 focus:bg-white dark:focus:bg-gray-900 focus:outline-none transition-all font-bold text-gray-800 dark:text-gray-100"
                                             placeholder="Enter custom category name..."
                                         />
                                     </motion.div>
@@ -509,13 +552,13 @@ const VoiceMemoRecorder = () => {
                     </div>
 
                     {/* Modal Footer */}
-                    <div className="p-8 bg-gray-50/50 flex gap-4 border-t border-gray-100">
+                    <div className="p-8 bg-gray-50/50 dark:bg-gray-800/50 flex gap-4 border-t border-gray-100 dark:border-gray-800">
                         <motion.button 
-                            whileHover={{ scale: 1.02, backgroundColor: "#fee2e2" }}
+                            whileHover={{ scale: 1.02, backgroundColor: isDarkMode ? "#450a0a" : "#fee2e2" }}
                             whileTap={{ scale: 0.98 }}
                             onClick={handleDiscard}
                             disabled={isSaving}
-                            className="flex-1 flex items-center justify-center gap-3 py-4 bg-white border-2 border-gray-100 text-red-500 font-black uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50"
+                            className="flex-1 flex items-center justify-center gap-3 py-4 bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 text-red-500 dark:text-red-400 font-black uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50"
                         >
                             <FiTrash2 size={16} /> Discard
                         </motion.button>
@@ -524,7 +567,7 @@ const VoiceMemoRecorder = () => {
                             whileTap={{ scale: 0.98 }}
                             onClick={handleFinalSave}
                             disabled={isSaving}
-                            className="flex-2 flex items-center justify-center gap-3 py-4 bg-[#2828FA] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50 shadow-2xl shadow-blue-200"
+                            className="flex-2 flex items-center justify-center gap-3 py-4 bg-[#2828FA] text-white font-black uppercase tracking-widest text-[11px] rounded-2xl transition-all disabled:opacity-50 shadow-2xl shadow-blue-200 dark:shadow-blue-900/40"
                         >
                             {isSaving ? (
                                 <motion.div 

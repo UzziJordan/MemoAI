@@ -32,7 +32,7 @@ const HeroSection = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="lg:w-1/2 w-full bg-[#24426A] md:px-40 lg:px-20 text-geist text-[#FFFFFF] flex flex-col justify-center lg:justify-normal px-5 py-17.5 overflow-hidden"
+            className="lg:w-1/2 w-full bg-[#24426A] dark:bg-gray-950 md:px-40 lg:px-20 text-geist text-[#FFFFFF] flex flex-col justify-center lg:justify-normal px-5 py-17.5 overflow-hidden transition-colors duration-300"
         >
             {/* LOGO SECTION */}
             <motion.div variants={itemVariants}>
@@ -93,7 +93,7 @@ const HeroSection = () => {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 1.5 + idx * 0.1 }}
-                            className={`${idx > 0 ? "-ml-3" : ""} w-9 h-9 rounded-full bg-linear-to-br ${user.color} flex items-center justify-center text-white font-black border-2 border-[#24426A] shadow-lg`}
+                            className={`${idx > 0 ? "-ml-3" : ""} w-9 h-9 rounded-full bg-linear-to-br ${user.color} flex items-center justify-center text-white font-black border-2 border-[#24426A] dark:border-gray-950 shadow-lg transition-colors`}
                         > 
                             {user.label}
                         </motion.div>

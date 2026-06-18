@@ -100,17 +100,17 @@ const StatsCards = () => {
             <motion.div 
                 variants={itemVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-white px-6 rounded-xl shadow-sm pb-5 border-2 border-transparent hover:border-blue-100 hover:shadow-xl hover:shadow-blue-50/50 transition-all duration-300"
+                className="bg-white dark:bg-gray-900 px-6 rounded-xl shadow-sm pb-5 border-2 border-transparent hover:border-blue-100 dark:hover:border-blue-900 hover:shadow-xl hover:shadow-blue-50/50 dark:hover:shadow-blue-900/10 transition-all duration-300"
             >
-                <p className="text-sm pt-5 text-[#6B7280] text-[13px] font-bold uppercase tracking-widest">
+                <p className="text-sm pt-5 text-[#6B7280] dark:text-gray-400 text-[13px] font-bold uppercase tracking-widest">
                     TOTAL RECORDINGS
                 </p>
 
-                <h2 className="text-[28px] text-[#111827] font-extrabold mt-1">
+                <h2 className="text-[28px] text-[#111827] dark:text-gray-100 font-extrabold mt-1">
                     {stats.totalRecordings}
                 </h2>
 
-                <p className="text-[12px] text-[#9CA3AF] font-medium">
+                <p className="text-[12px] text-[#9CA3AF] dark:text-gray-500 font-medium">
                     Lifetime history
                 </p>
             </motion.div>
@@ -120,17 +120,17 @@ const StatsCards = () => {
             <motion.div 
                 variants={itemVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-white px-6 rounded-xl shadow-sm pb-5 border-2 border-transparent hover:border-blue-100 hover:shadow-xl hover:shadow-blue-50/50 transition-all duration-300"
+                className="bg-white dark:bg-gray-900 px-6 rounded-xl shadow-sm pb-5 border-2 border-transparent hover:border-blue-100 dark:hover:border-blue-900 hover:shadow-xl hover:shadow-blue-50/50 dark:hover:shadow-blue-900/10 transition-all duration-300"
             >
-                <p className="text-sm pt-5 text-[#6B7280] text-[13px] font-bold uppercase tracking-widest">
+                <p className="text-sm pt-5 text-[#6B7280] dark:text-gray-400 text-[13px] font-bold uppercase tracking-widest">
                     TOTAL DURATION
                 </p>
 
-                <h2 className="text-[28px] text-[#111827] font-extrabold mt-1">
+                <h2 className="text-[28px] text-[#111827] dark:text-gray-100 font-extrabold mt-1">
                     {formatDuration(stats.totalDuration)}
                 </h2>
 
-                <p className="text-[12px] text-[#9CA3AF] font-medium">
+                <p className="text-[12px] text-[#9CA3AF] dark:text-gray-500 font-medium">
                     Across all sessions
                 </p>
             </motion.div>
@@ -140,17 +140,17 @@ const StatsCards = () => {
             <motion.div 
                 variants={itemVariants}
                 whileHover={{ y: -5, scale: 1.02 }}
-                className="bg-white px-6 rounded-xl shadow-sm pb-5 border-2 border-transparent hover:border-blue-100 hover:shadow-xl hover:shadow-blue-50/50 transition-all duration-300"
+                className="bg-white dark:bg-gray-900 px-6 rounded-xl shadow-sm pb-5 border-2 border-transparent hover:border-blue-100 dark:hover:border-blue-900 hover:shadow-xl hover:shadow-blue-50/50 dark:hover:shadow-blue-900/10 transition-all duration-300"
             >
-                <p className="text-sm pt-5 text-[#6B7280] text-[13px] font-bold uppercase tracking-widest">
+                <p className="text-sm pt-5 text-[#6B7280] dark:text-gray-400 text-[13px] font-bold uppercase tracking-widest">
                     PENDING TASKS
                 </p>
 
-                <h2 className="text-[28px] text-[#111827] font-extrabold mt-1">
+                <h2 className="text-[28px] text-[#111827] dark:text-gray-100 font-extrabold mt-1">
                     {stats.pendingTasks}
                 </h2>
 
-                <p className="text-[12px] text-[#9CA3AF] font-medium">
+                <p className="text-[12px] text-[#9CA3AF] dark:text-gray-500 font-medium">
                     {stats.meetingsWithTasks === 1
                     ? "From 1 meeting"
                     : `From ${stats.meetingsWithTasks} meetings`}

@@ -47,17 +47,17 @@ const Onboarding = () => {
   };
 
   return (
-    <div className="max-h-screen overflow-x-hidden lg:h-screen flex flex-col lg:flex-row text-geist">
+    <div className="max-h-screen overflow-x-hidden lg:h-screen flex flex-col lg:flex-row text-geist dark:text-gray-100 transition-colors duration-300">
       {/* Left Section */}
       <motion.div 
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className='px-10 md:px-20 pt-10 lg: w-full lg:w-1/2 bg-white flex flex-col justify-start'
+        className='px-10 md:px-20 pt-10 lg: w-full lg:w-1/2 bg-white dark:bg-gray-950 flex flex-col justify-start'
       >
         <motion.div 
           variants={itemVariants}
-          className='text-[#000000] bg-[#F3F4F6] rounded-full w-fit items-center px-4 py-2 flex gap-2 shadow-sm'
+          className='text-[#000000] dark:text-gray-100 bg-[#F3F4F6] dark:bg-gray-900 rounded-full w-fit items-center px-4 py-2 flex gap-2 shadow-sm'
         >
           <motion.p 
             animate={{ scale: [1, 1.2, 1] }}
@@ -69,27 +69,27 @@ const Onboarding = () => {
         
         <motion.div variants={itemVariants} className='text-instrument-serif text-[48px] md:text-[64px] mt-8 leading-tight font-extrabold tracking-tighter'>
           Welcome to <br />
-          <span className='italic text-[#2828FA]'> MemoAI. </span>
+          <span className='italic text-[#2828FA] dark:text-blue-400'> MemoAI. </span>
         </motion.div>
         
-        <motion.div variants={itemVariants} className='text-[#808080] mt-6 mb-6 font-medium text-[18px] w-full max-w-md leading-relaxed'>
+        <motion.div variants={itemVariants} className='text-[#808080] dark:text-gray-400 mt-6 mb-6 font-medium text-[18px] w-full max-w-md leading-relaxed'>
           Your AI-powered meeting companion. Record any conversation and Memo automatically transcribes it, extracts key insights, and creates action items.
         </motion.div>
 
         {/* CLICKABLE SIGNED IN SECTION */}
         <motion.button 
           variants={itemVariants}
-          whileHover={{ scale: 1.02, backgroundColor: "#F9FAFB", borderColor: "#2828FA" }}
+          whileHover={{ scale: 1.02, backgroundColor: "rgba(249, 250, 251, 0.05)", borderColor: "#2828FA" }}
           whileTap={{ scale: 0.98 }}
           onClick={handleSignIn}
-          className='flex p-4 items-center border-2 rounded-3xl w-full max-w-sm border-[#F3F4F6] gap-4 transition-all text-left cursor-pointer group'
+          className='flex p-4 items-center border-2 rounded-3xl w-full max-w-sm border-[#F3F4F6] dark:border-gray-800 gap-4 transition-all text-left cursor-pointer group'
         >
-          <div className="p-3 bg-blue-50 text-[#2828FA] rounded-2xl group-hover:bg-[#2828FA] group-hover:text-white transition-colors">
+          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 text-[#2828FA] dark:text-blue-400 group-hover:bg-[#2828FA] group-hover:text-white transition-colors">
             <FiUser size={18} />
           </div>
           <div>
-            <p className='text-gray-400 text-[10px] font-bold uppercase tracking-widest'>Continue as</p>
-            <p className='font-extrabold text-gray-800 text-[14px]'> {lastUserName || "Guest User"}</p>
+            <p className='text-gray-400 dark:text-gray-500 text-[10px] font-bold uppercase tracking-widest'>Continue as</p>
+            <p className='font-extrabold text-gray-800 dark:text-gray-200 text-[14px] transition-colors'> {lastUserName || "Guest User"}</p>
           </div>
         </motion.button>
 
@@ -99,7 +99,7 @@ const Onboarding = () => {
           whileHover={{ scale: 1.05, backgroundColor: "#1D1DFA" }}
           whileTap={{ scale: 0.95 }}
           onClick={handleSignIn}
-          className='mt-8 bg-[#2828FA] flex justify-between w-full max-w-sm rounded-3xl items-center text-white text-[16px] font-bold py-5 px-10 shadow-2xl shadow-blue-100 transition-all cursor-pointer'
+          className='mt-8 bg-[#2828FA] flex justify-between w-full max-w-sm rounded-3xl items-center text-white text-[16px] font-bold py-5 px-10 shadow-2xl shadow-blue-100 dark:shadow-blue-900/20 transition-all cursor-pointer'
         >
           <span>Get Started Now</span>
           <span className='text-3xl leading-none'> › </span> 
@@ -107,7 +107,7 @@ const Onboarding = () => {
       </motion.div>
 
       {/* Right Section */}
-      <div className="lg:w-1/2 mt-20 lg:mt-0 h-full py-20 lg:py-0 flex justify-center items-center bg-[#EAF3FF] lg:overflow-hidden relative">
+      <div className="lg:w-1/2 mt-20 lg:mt-0 h-full py-20 lg:py-0 flex justify-center items-center bg-[#EAF3FF] dark:bg-gray-900 lg:overflow-hidden relative transition-colors duration-300">
         
         <motion.div 
             initial="hidden"
@@ -121,15 +121,15 @@ const Onboarding = () => {
           <motion.div variants={illustrationVariants} className="group">
             <motion.div 
                 whileHover={{ y: -5, scale: 1.02 }}
-                className='flex items-center gap-6 bg-white rounded-4xl p-8 shadow-xl shadow-blue-900/5 transition-all'
+                className='flex items-center gap-6 bg-white dark:bg-gray-800 rounded-4xl p-8 shadow-xl shadow-blue-900/5 dark:shadow-black/20 transition-all'
             >
-              <div className='p-4 h-16 w-16 rounded-2xl bg-[#FEE2E2] flex items-center justify-center'>
+              <div className='p-4 h-16 w-16 rounded-2xl bg-[#FEE2E2] dark:bg-red-900/20 flex items-center justify-center'>
                 <FiRadio className="text-[#FB2126] size-8" />
               </div>
 
               <div className='text-start'>
-                <p className='text-[#2B2B2B] text-xl font-extrabold tracking-tight'>Record</p>
-                <p className='text-[#A1A8B3] text-sm font-bold uppercase tracking-wide'>Meetings & Interviews</p>
+                <p className='text-[#2B2B2B] dark:text-gray-100 text-xl font-extrabold tracking-tight'>Record</p>
+                <p className='text-[#A1A8B3] dark:text-gray-400 text-sm font-bold uppercase tracking-wide'>Meetings & Interviews</p>
               </div>
             </motion.div>
             
@@ -137,7 +137,7 @@ const Onboarding = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
-                className='my-6 ml-32 opacity-20'
+                className='my-6 ml-32 opacity-20 dark:invert'
             > 
                 <img src={arrow} alt="" className="w-12" /> 
             </motion.div>
@@ -146,15 +146,15 @@ const Onboarding = () => {
           <motion.div variants={illustrationVariants} className="group">
             <motion.div 
                 whileHover={{ y: -5, scale: 1.02 }}
-                className='flex items-center gap-6 bg-white rounded-4xl p-8 shadow-xl shadow-blue-900/5 transition-all'
+                className='flex items-center gap-6 bg-white dark:bg-gray-800 rounded-4xl p-8 shadow-xl shadow-blue-900/5 dark:shadow-black/20 transition-all'
             >
-              <div className='h-16 w-16 rounded-2xl text-[28px] font-black text-[#2828FA] bg-[#EFF6FF] flex items-center justify-center'>
+              <div className='h-16 w-16 rounded-2xl text-[28px] font-black text-[#2828FA] dark:text-blue-400 bg-[#EFF6FF] dark:bg-blue-900/20 flex items-center justify-center'>
                 T
               </div>
               
               <div className='text-start'>
-                <p className='text-[#2B2B2B] text-xl font-extrabold tracking-tight'>Transcribe</p>
-                <p className='text-[#A1A8B3] text-sm font-bold uppercase tracking-wide'>AI-Powered Accuracy</p>
+                <p className='text-[#2B2B2B] dark:text-gray-100 text-xl font-extrabold tracking-tight'>Transcribe</p>
+                <p className='text-[#A1A8B3] dark:text-gray-400 text-sm font-bold uppercase tracking-wide'>AI-Powered Accuracy</p>
               </div>
             </motion.div>
             
@@ -162,7 +162,7 @@ const Onboarding = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.3 }}
-                className='my-6 ml-32 opacity-20'
+                className='my-6 ml-32 opacity-20 dark:invert'
             > 
                 <img src={arrow} alt="" className="w-12" /> 
             </motion.div>
@@ -171,14 +171,14 @@ const Onboarding = () => {
           <motion.div variants={illustrationVariants}>
             <motion.div 
                 whileHover={{ y: -5, scale: 1.02 }}
-                className='flex items-center gap-6 bg-white rounded-4xl p-8 shadow-xl shadow-blue-900/5 transition-all'
+                className='flex items-center gap-6 bg-white dark:bg-gray-800 rounded-4xl p-8 shadow-xl shadow-blue-900/5 dark:shadow-black/20 transition-all'
             >
-              <div className='h-16 w-16 rounded-2xl flex items-center justify-center bg-[#F0FDF4]'>
+              <div className='h-16 w-16 rounded-2xl flex items-center justify-center bg-[#F0FDF4] dark:bg-green-900/20'>
                 <FaCheck className="text-[#1D8D2E] text-2xl" />
               </div>
               <div className='text-start'>
-                <p className='text-[#2B2B2B] text-xl font-extrabold tracking-tight'>Summarize</p>
-                <p className='text-[#A1A8B3] text-sm font-bold uppercase tracking-wide'>Instant Action Items</p>
+                <p className='text-[#2B2B2B] dark:text-gray-100 text-xl font-extrabold tracking-tight'>Summarize</p>
+                <p className='text-[#A1A8B3] dark:text-gray-400 text-sm font-bold uppercase tracking-wide'>Instant Action Items</p>
               </div>
             </motion.div>
           </motion.div>

@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 const Section3 = () => {
     // --- RENDER ---
     return (
-        <div className='bg-[#EFF2F9] mt-18  w-full text-geist h-auto overflow-hidden'>
+        <div className='bg-[#EFF2F9] dark:bg-gray-950 mt-18 w-full text-geist dark:text-gray-100 h-auto overflow-hidden transition-colors duration-300'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col-reverse justify-center items-center align-middle py-16 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 {/* IMAGE SECTION */}
@@ -36,7 +36,7 @@ const Section3 = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className='h-10.5 w-25 mx-auto bg-[#2828FA]/10 rounded-3xl text-center items-center lg:mx-0 flex justify-center'
+                        className='h-10.5 w-25 mx-auto bg-[#2828FA]/10 dark:bg-[#2828FA]/20 rounded-3xl text-center items-center lg:mx-0 flex justify-center'
                     >
                         <p className='font-bold text-[14px] text-[#2828FA]'>WHY MEMO</p>
                     </motion.div>
@@ -49,8 +49,8 @@ const Section3 = () => {
                         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
                         className='lg:pt-6'
                     >
-                        <h1 className='font-extrabold text-[32px] md:text-[40px] leading-tight text-gray-800 lg:mx-0'>Save Hours Every Week</h1>
-                        <p className='text-[16px] text-[#6B7280] mt-4 font-medium leading-relaxed'>Stop relistening to hour-long recordings. Memo's AI delivers a concise 3 – 5 bullet summary in seconds, so you get the full picture without replaying a single second.</p>
+                        <h1 className='font-extrabold text-[32px] md:text-[40px] leading-tight text-gray-800 dark:text-gray-100 lg:mx-0'>Save Hours Every Week</h1>
+                        <p className='text-[16px] text-[#6B7280] dark:text-gray-400 mt-4 font-medium leading-relaxed'>Stop relistening to hour-long recordings. Memo's AI delivers a concise 3 – 5 bullet summary in seconds, so you get the full picture without replaying a single second.</p>
                     </motion.div>
                     
                     {/* CHECKPOINTS */}
@@ -65,9 +65,9 @@ const Section3 = () => {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.4 + idx * 0.1 }}
-                                className="flex gap-4 items-center justify-center lg:justify-start text-[15px] font-bold text-gray-700"
+                                className="flex gap-4 items-center justify-center lg:justify-start text-[15px] font-bold text-gray-700 dark:text-gray-300"
                             >
-                                <span className="flex items-center justify-center w-6 h-6 bg-green-100 text-green-600 rounded-full shadow-sm">
+                                <span className="flex items-center justify-center w-6 h-6 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full shadow-sm">
                                     <FaCheck className="text-xs" />
                                 </span>
                                 {text}
@@ -86,7 +86,7 @@ const Section3 = () => {
                         <motion.button 
                             whileHover={{ scale: 1.05, backgroundColor: "#1D1DFA" }}
                             whileTap={{ scale: 0.95 }}
-                            className='bg-[#2828FA] text-[#FFFFFF] font-bold text-center px-8 h-14 rounded-2xl shadow-xl shadow-blue-100 transition-all'
+                            className='bg-[#2828FA] text-[#FFFFFF] font-bold text-center px-8 h-14 rounded-2xl shadow-xl shadow-blue-100 dark:shadow-blue-900/20 transition-all'
                         >
                             Discover More
                         </motion.button>

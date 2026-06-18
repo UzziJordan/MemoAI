@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Audiowide&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geist:wght@100..900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');@import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
 .text-audiowide {
   font-family: "Audiowide", sans-serif;
   font-weight: 900;
@@ -25,4 +27,13 @@
   font-family: "JetBrains Mono", monospace;
   font-optical-sizing: auto;
   font-style: normal;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900 transition-colors duration-300;
+  }
+  .dark body {
+    @apply bg-gray-950 text-gray-100;
+  }
 }

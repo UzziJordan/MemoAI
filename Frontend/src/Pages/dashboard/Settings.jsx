@@ -4,6 +4,7 @@ import Searchbar from '../../Components/Dashboard/Searchbar';
 import { api, auth, BASE_URL } from "../../lib/api";
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiUser, FiMail, FiLock, FiBell, FiShield, FiTrash2, FiSave, FiEdit2, FiX } from "react-icons/fi";
+import { useTheme } from "../../context/ThemeContext";
 
 /**
  * Settings Component
@@ -16,6 +17,7 @@ const Settings = () => {
     const [loadingUser, setLoadingUser] = useState(true);
     const [uploading, setUploading] = useState(false);
     const [profileUrl, setProfileUrl] = useState(profileimg);
+    const { isDarkMode } = useTheme();
 
     // Individual states for toggles
     const [dailyReminder, setDailyReminder] = useState(false);
@@ -210,7 +212,7 @@ const Settings = () => {
 
     // --- MAIN RENDER ---
     return (
-        <div className='text-geist pt-20 min-h-screen bg-gray-50/50'>
+        <div className='text-geist pt-20 min-h-screen bg-gray-50/50 dark:bg-gray-950 transition-colors duration-300'>
 
             <Searchbar />
 
@@ -221,24 +223,24 @@ const Settings = () => {
                 className='max-w-4xl mx-auto px-6 flex flex-col mt-10 gap-8 pb-32'
             >
 
-                <motion.h1 variants={sectionVariants} className="text-3xl font-black text-gray-900 tracking-tight">
+                <motion.h1 variants={sectionVariants} className="text-3xl font-black text-gray-900 dark:text-gray-100 tracking-tight transition-colors">
                     Account Settings
                 </motion.h1>
 
 
                 {/* --- PROFILE SECTION --- */}
-                <motion.div variants={sectionVariants} className="bg-white rounded-3xl p-8 shadow-xl shadow-blue-900/5 border border-gray-100">
+                <motion.div variants={sectionVariants} className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl shadow-blue-900/5 dark:shadow-black/20 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
 
-                    <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-8">Profile Information</h2>
+                    <h2 className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-8">Profile Information</h2>
 
                     {/* PHOTO */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pb-8 border-b border-gray-50">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pb-8 border-b border-gray-50 dark:border-gray-800">
                         <div className="flex items-center gap-6">
                             <div className="relative group">
                                 <motion.img
                                     whileHover={{ scale: 1.05 }}
                                     src={profileUrl}
-                                    className="h-24 w-24 rounded-[32px] object-cover border-4 border-white shadow-xl"
+                                    className="h-24 w-24 rounded-[32px] object-cover border-4 border-white dark:border-gray-800 shadow-xl transition-colors duration-300"
                                     alt="Profile"
                                 />
                                 {uploading && (
@@ -252,8 +254,8 @@ const Settings = () => {
                                 )}
                             </div>
                             <div>
-                                <p className="text-xl font-black text-gray-800 tracking-tight">{userName}</p>
-                                <p className="text-sm text-gray-400 font-medium">Your profile photo will be visible to your team</p>
+                                <p className="text-xl font-black text-gray-800 dark:text-gray-100 tracking-tight transition-colors">{userName}</p>
+                                <p className="text-sm text-gray-400 dark:text-gray-500 font-medium">Your profile photo will be visible to your team</p>
                             </div>
                         </div>
 
@@ -270,7 +272,7 @@ const Settings = () => {
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => fileInputRef.current.click()}
                                 disabled={uploading}
-                                className="bg-blue-50 text-blue-600 px-6 py-3 rounded-2xl text-sm font-black uppercase tracking-wider hover:bg-blue-600 hover:text-white transition-all disabled:opacity-50"
+                                className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-6 py-3 rounded-2xl text-sm font-black uppercase tracking-wider hover:bg-blue-600 dark:hover:bg-blue-500 hover:text-white transition-all disabled:opacity-50 shadow-sm"
                             >
                                 Change Photo
                             </motion.button>
@@ -278,14 +280,14 @@ const Settings = () => {
                     </div>
 
                     {/* NAME */}
-                    <div className="py-8 border-b border-gray-50">
+                    <div className="py-8 border-b border-gray-50 dark:border-gray-800">
                         <div className="flex justify-between items-center mb-2">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Full Display Name</label>
+                            <label className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Full Display Name</label>
                             {!isEditingName && (
                                 <motion.button 
                                     whileHover={{ color: "#2828FA" }}
                                     onClick={() => {setIsEditingName(true); setTempName(userName);}}
-                                    className="text-gray-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5"
+                                    className="text-gray-400 dark:text-gray-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     <FiEdit2 size={12} /> Change
                                 </motion.button>
@@ -294,13 +296,13 @@ const Settings = () => {
 
                         <div className="flex items-center gap-4">
                             <div className="flex-1 relative group">
-                                <FiUser className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${isEditingName ? 'text-blue-500' : 'text-gray-300'}`} />
+                                <FiUser className={`absolute left-5 top-1/2 -translate-y-1/2 transition-colors ${isEditingName ? 'text-blue-500 dark:text-blue-400' : 'text-gray-300 dark:text-gray-700'}`} />
                                 <input
                                     type="text"
                                     value={isEditingName ? tempName : userName}
                                     onChange={(e) => setTempName(e.target.value)}
                                     readOnly={!isEditingName}
-                                    className={`w-full border-2 pl-12 pr-6 py-4 rounded-2xl text-base font-bold transition-all ${isEditingName ? 'bg-white border-blue-500 shadow-lg shadow-blue-100 text-gray-800' : 'bg-gray-50 border-gray-50 text-gray-400'}`}
+                                    className={`w-full border-2 pl-12 pr-6 py-4 rounded-2xl text-base font-bold transition-all ${isEditingName ? 'bg-white dark:bg-gray-800 border-blue-500 dark:border-blue-400 shadow-lg shadow-blue-100 dark:shadow-blue-900/20 text-gray-800 dark:text-gray-100' : 'bg-gray-50 dark:bg-gray-800/50 border-gray-50 dark:border-gray-800 text-gray-400 dark:text-gray-600'}`}
                                 />
                             </div>
 
@@ -317,7 +319,7 @@ const Settings = () => {
                                             whileTap={{ scale: 0.95 }}
                                             onClick={handleNameUpdate}
                                             disabled={savingName}
-                                            className="bg-blue-600 text-white p-4 rounded-2xl shadow-lg shadow-blue-100"
+                                            className="bg-blue-600 text-white p-4 rounded-2xl shadow-lg shadow-blue-100 dark:shadow-blue-900/40"
                                         >
                                             <FiSave size={20} />
                                         </motion.button>
@@ -325,7 +327,7 @@ const Settings = () => {
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={() => setIsEditingName(false)}
-                                            className="bg-white border-2 border-gray-100 text-gray-400 p-4 rounded-2xl"
+                                            className="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 text-gray-400 p-4 rounded-2xl"
                                         >
                                             <FiX size={20} />
                                         </motion.button>
@@ -337,54 +339,54 @@ const Settings = () => {
 
                     {/* EMAIL */}
                     <div className="pt-8">
-                        <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">Primary Email</label>
+                        <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-2">Primary Email</label>
                         <div className="relative group opacity-60">
-                            <FiMail className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300" />
+                            <FiMail className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-700" />
                             <input
                                 type="text"
                                 value={userEmail}
                                 readOnly
-                                className="w-full bg-gray-50 border-2 border-gray-50 pl-12 pr-6 py-4 rounded-2xl text-base font-bold text-gray-400 cursor-not-allowed"
+                                className="w-full bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-50 dark:border-gray-800 pl-12 pr-6 py-4 rounded-2xl text-base font-bold text-gray-400 dark:text-gray-600 cursor-not-allowed"
                             />
                         </div>
-                        <p className="mt-2 text-[10px] text-gray-300 font-bold uppercase tracking-widest italic">Email cannot be changed on free plan</p>
+                        <p className="mt-2 text-[10px] text-gray-300 dark:text-gray-600 font-bold uppercase tracking-widest italic">Email cannot be changed on free plan</p>
                     </div>
                 </motion.div>
 
 
                 {/* --- SECURITY SECTION --- */}
                 {!user?.googleId && (
-                    <motion.div variants={sectionVariants} className="bg-white rounded-3xl p-8 shadow-xl shadow-blue-900/5 border border-gray-100">
-                        <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
+                    <motion.div variants={sectionVariants} className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl shadow-blue-900/5 dark:shadow-black/20 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+                        <h2 className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                             <FiShield /> Security
                         </h2>
 
                         <form onSubmit={handlePasswordUpdate} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">Current Password</label>
+                                    <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-2">Current Password</label>
                                     <div className="relative group">
-                                        <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors" />
+                                        <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-700 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="password"
                                             value={currentPassword}
                                             onChange={(e) => setCurrentPassword(e.target.value)}
                                             placeholder="••••••••"
-                                            className="w-full bg-gray-50 border-2 border-gray-50 focus:bg-white focus:border-blue-500 pl-12 pr-6 py-4 rounded-2xl text-base font-bold text-gray-800 transition-all outline-none"
+                                            className="w-full bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-50 dark:border-gray-800 focus:bg-white dark:focus:bg-gray-800 focus:border-blue-500 dark:focus:border-blue-400 pl-12 pr-6 py-4 rounded-2xl text-base font-bold text-gray-800 dark:text-gray-100 transition-all outline-none"
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2">New Secure Password</label>
+                                    <label className="block text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-2">New Secure Password</label>
                                     <div className="relative group">
-                                        <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors" />
+                                        <FiLock className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-700 group-focus-within:text-blue-500 dark:group-focus-within:text-blue-400 transition-colors" />
                                         <input
                                             type="password"
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
                                             placeholder="••••••••"
-                                            className="w-full bg-gray-50 border-2 border-gray-50 focus:bg-white focus:border-blue-500 pl-12 pr-6 py-4 rounded-2xl text-base font-bold text-gray-800 transition-all outline-none"
+                                            className="w-full bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-50 dark:border-gray-800 focus:bg-white dark:focus:bg-gray-800 focus:border-blue-500 dark:focus:border-blue-400 pl-12 pr-6 py-4 rounded-2xl text-base font-bold text-gray-800 dark:text-gray-100 transition-all outline-none"
                                         />
                                     </div>
                                 </div>
@@ -396,7 +398,7 @@ const Settings = () => {
                                     whileTap={{ scale: 0.98 }}
                                     type="submit"
                                     disabled={updatingPassword}
-                                    className="bg-[#2828FA] text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-[#1D1DFA] transition-all disabled:opacity-50 shadow-xl shadow-blue-100"
+                                    className="bg-[#2828FA] text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-[#1D1DFA] transition-all disabled:opacity-50 shadow-xl shadow-blue-100 dark:shadow-blue-900/40"
                                 >
                                     {updatingPassword ? "Verifying..." : "Update Password"}
                                 </motion.button>
@@ -407,8 +409,8 @@ const Settings = () => {
 
 
                 {/* --- NOTIFICATIONS SECTION --- */}
-                <motion.div variants={sectionVariants} className="bg-white rounded-3xl p-8 shadow-xl shadow-blue-900/5 border border-gray-100">
-                    <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
+                <motion.div variants={sectionVariants} className="bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-xl shadow-blue-900/5 dark:shadow-black/20 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+                    <h2 className="text-sm font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
                         <FiBell /> Smart Alerts
                     </h2>
 
@@ -418,20 +420,20 @@ const Settings = () => {
                             { id: 'weekly', label: 'Weekly Digest', desc: 'Executive report of your key accomplishments', state: weeklyDigest, setter: setWeeklyDigest },
                             { id: 'todos', label: 'Action Item Alerts', desc: 'Notifications for high-priority task deadlines', state: missedTodos, setter: setMissedTodos }
                         ].map((toggle, idx) => (
-                            <div key={toggle.id} className={`flex justify-between items-center p-6 rounded-[24px] border-2 transition-all duration-300 ${toggle.state ? 'bg-blue-50/50 border-blue-100' : 'bg-gray-50/50 border-gray-50'}`}>
+                            <div key={toggle.id} className={`flex justify-between items-center p-6 rounded-[24px] border-2 transition-all duration-300 ${toggle.state ? 'bg-blue-50/50 dark:bg-blue-900/20 border-blue-100 dark:border-blue-800' : 'bg-gray-50/50 dark:bg-gray-800/50 border-gray-50 dark:border-gray-800'}`}>
                                 <div>
-                                    <p className={`font-black tracking-tight ${toggle.state ? 'text-blue-700' : 'text-gray-700'}`}>{toggle.label}</p>
-                                    <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mt-1">{toggle.desc}</p>
+                                    <p className={`font-black tracking-tight ${toggle.state ? 'text-blue-700 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 transition-colors'}`}>{toggle.label}</p>
+                                    <p className="text-xs text-gray-400 dark:text-gray-500 font-bold uppercase tracking-wider mt-1">{toggle.desc}</p>
                                 </div>
 
                                 <button
                                     onClick={() => handleToggleNotification(toggle.id, toggle.state, toggle.setter)}
                                     className={`w-14 h-8 flex items-center rounded-full px-1.5 transition-all duration-500 shadow-inner
-                                        ${toggle.state ? "bg-blue-600" : "bg-gray-300"}`}
+                                        ${toggle.state ? "bg-blue-600 dark:bg-blue-500" : "bg-gray-300 dark:bg-gray-700"}`}
                                 >
                                     <motion.div
                                         animate={{ x: toggle.state ? 24 : 0 }}
-                                        className="bg-white w-5 h-5 rounded-full shadow-lg"
+                                        className="bg-white dark:bg-gray-100 w-5 h-5 rounded-full shadow-lg"
                                     />
                                 </button>
                             </div>
@@ -441,22 +443,22 @@ const Settings = () => {
 
 
                 {/* --- DANGER ZONE --- */}
-                <motion.div variants={sectionVariants} className="bg-red-50 rounded-3xl p-8 border border-red-100">
+                <motion.div variants={sectionVariants} className="bg-red-50 dark:bg-red-900/10 rounded-3xl p-8 border border-red-100 dark:border-red-900/30 transition-colors duration-300">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                         <div>
-                            <p className="text-red-700 font-black text-xl tracking-tight flex items-center gap-2">
+                            <p className="text-red-700 dark:text-red-400 font-black text-xl tracking-tight flex items-center gap-2">
                                 <FiTrash2 /> Close Account
                             </p>
-                            <p className="text-red-400 text-xs font-bold uppercase tracking-widest mt-1">
+                            <p className="text-red-400 dark:text-red-500 text-xs font-bold uppercase tracking-widest mt-1">
                                 Warning: This will permanently delete all your data
                             </p>
                         </div>
 
                         <motion.button 
-                            whileHover={{ scale: 1.05, backgroundColor: "#ef4444", color: "#fff" }}
+                            whileHover={{ scale: 1.05, backgroundColor: isDarkMode ? "#7f1d1d" : "#ef4444", color: "#fff" }}
                             whileTap={{ scale: 0.95 }}
                             onClick={handleDeleteAccount}
-                            className="bg-white text-red-500 border-2 border-red-100 px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-sm"
+                            className="bg-white dark:bg-gray-900 text-red-500 dark:text-red-400 border-2 border-red-100 dark:border-red-900/30 px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all shadow-sm"
                         >
                             Delete Forever
                         </motion.button>

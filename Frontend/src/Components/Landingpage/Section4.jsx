@@ -12,7 +12,7 @@ import { motion } from 'framer-motion';
 const Section4 = () => {
     // --- RENDER ---
     return (
-        <div className='mt-18 w-full text-geist h-auto overflow-hidden'>
+        <div className='mt-18 w-full text-geist dark:text-gray-100 h-auto overflow-hidden transition-colors duration-300'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col justify-center items-center align-middle py-16 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 
@@ -26,8 +26,8 @@ const Section4 = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className='lg:pt-4'
                     >
-                        <h1 className='font-extrabold text-[32px] md:text-[40px] leading-tight text-gray-800 lg:mx-0'>Never Miss an Action Item</h1>
-                        <p className='text-[16px] text-[#6B7280] mt-4 font-medium leading-relaxed'>Memo automatically extracts commitments, deadlines, and to-dos from your conversations turning follow-ups into a ready-to-use task list before the meeting even ends.</p>
+                        <h1 className='font-extrabold text-[32px] md:text-[40px] leading-tight text-gray-800 dark:text-gray-100 lg:mx-0'>Never Miss an Action Item</h1>
+                        <p className='text-[16px] text-[#6B7280] dark:text-gray-400 mt-4 font-medium leading-relaxed'>Memo automatically extracts commitments, deadlines, and to-dos from your conversations turning follow-ups into a ready-to-use task list before the meeting even ends.</p>
                     </motion.div>
                     
                     {/* CHECKPOINTS */}
@@ -44,9 +44,9 @@ const Section4 = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.3 + idx * 0.1 }}
-                                className="flex gap-3 items-center text-[12px] font-bold text-gray-700"
+                                className="flex gap-3 items-center text-[12px] font-bold text-gray-700 dark:text-gray-300"
                             >
-                                <span className="flex items-center justify-center w-5 h-5 bg-green-100 text-green-600 rounded-full shrink-0">
+                                <span className="flex items-center justify-center w-5 h-5 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full shrink-0">
                                     <FaCheck size={10} />
                                 </span>
                                 {text}
@@ -65,7 +65,7 @@ const Section4 = () => {
                         <motion.button 
                             whileHover={{ scale: 1.05, backgroundColor: "#1D1DFA" }}
                             whileTap={{ scale: 0.95 }}
-                            className='bg-[#2828FA] text-[#FFFFFF] font-bold text-center px-8 h-14 rounded-2xl shadow-xl shadow-blue-100 transition-all'
+                            className='bg-[#2828FA] text-[#FFFFFF] font-bold text-center px-8 h-14 rounded-2xl shadow-xl shadow-blue-100 dark:shadow-blue-900/20 transition-all'
                         >
                             Dive deeper
                         </motion.button>

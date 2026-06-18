@@ -8,6 +8,23 @@ const brevo = require('../config/email');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
+const sendWelcomeEmail = async (user) => {
+  try {
+    const welcomeEmail = await brevo.transactionalEmails.sendTransacEmail({
+      subject: 'Welcome to Memo AI!',
+      templateId: 7,
+      params: {
+        NAME: user.name,
+      },
+      sender: { name: 'MEMO AI', email: 'kpatakousman10@gmail.com' },
+      to: [{ email: user.email, name: user.name }],
+    });
+    console.log('Welcome email sent successfully', welcomeEmail);
+  } catch (emailErr) {
+    console.error('Error sending welcome email', emailErr.response?.data || emailErr.body || emailErr.message || emailErr);
+  }
+};
+
 
 //Register user 
 
@@ -19,10 +36,16 @@ exports.createUser = async (req, res) => {
     if (googleId) {
       if (!email) return res.status(400).json({ message: 'Email is required for Google authentication' });
       let user = await User.findOne({ googleId });
+      let isNewGoogleUser = false;
 
       if (!user) {
         user = new User({ email, name, googleId, isVerified: true });
         await user.save();
+        isNewGoogleUser = true;
+      }
+
+      if (isNewGoogleUser) {
+        await sendWelcomeEmail(user);
       }
 
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -63,12 +86,12 @@ exports.createUser = async (req, res) => {
       try {
         await brevo.transactionalEmails.sendTransacEmail({
           subject: 'Verify your account',
-          templateId: 4, // Replace with your actual template ID
+          templateId: 5, // Replace with your actual template ID
           params: {
             NAME: user.name,
             otp: otp
           },
-          sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+          sender: { name: 'MEMO AI', email: 'kpatakousman10@gmail.com' },
           to: [{ email: user.email, name: user.name }],
         });
       } catch (emailErr) {
@@ -114,20 +137,7 @@ exports.verifyOTP = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const { passwordHash: _, ...userWithoutPassword } = user.toObject();
 
-    //Welcome email after successful verification
-    try {
-      await brevo.transactionalEmails.sendTransacEmail({
-        subject: 'Welcome to Memo AI!',
-        templateId: 1,
-        params: {
-          NAME: user.name,
-        },
-        sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
-        to: [{ email: user.email, name: user.name }],
-      });
-    } catch (emailErr) {
-      console.error('Error sending welcome email', emailErr);
-    }
+    await sendWelcomeEmail(user);
 
     res.status(200).json({ message: 'Account verified successfully', token, user: userWithoutPassword });
   } catch (err) {
@@ -160,12 +170,12 @@ exports.resendOTP = async (req, res) => {
 
     await brevo.transactionalEmails.sendTransacEmail({
       subject: 'Your new verification code',
-      templateId: 4, // Replace with your actual template ID
+      templateId: 5, // Replace with your actual template ID
       params: {
         NAME: user.name,
         otp: otp
       },
-      sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+      sender: { name: 'MEMO AI', email: 'kpatakousman10@gmail.com' },
       to: [{ email: user.email, name: user.name }],
     });
 
@@ -196,12 +206,12 @@ exports.forgotPassword = async (req, res) => {
     try {
       await brevo.transactionalEmails.sendTransacEmail({
         subject: 'Reset your password',
-        templateId: 4, // Using the same template for OTP for now
+        templateId: 5, // Using the same template for OTP for now
         params: {
           NAME: user.name,
           otp: otp
         },
-        sender: { name: 'Uzzi Hub', email: 'kpatakousman10@gmail.com' },
+        sender: { name: 'MEMO AI', email: 'kpatakousman10@gmail.com' },
         to: [{ email: user.email, name: user.name }],
       });
     } catch (emailErr) {
@@ -310,8 +320,11 @@ exports.googleAuth = async (req, res) => {
         name,
         profileImage: picture,
         googleId,
-        passwordHash: '' // no password for Google users
+        passwordHash: '', // no password for Google users
+        isVerified: true
       });
+
+      await sendWelcomeEmail(user);
     } else if (!user.googleId) {
       return res.status(400).json({ message: 'Email already exists. Please login with password.' });
     }

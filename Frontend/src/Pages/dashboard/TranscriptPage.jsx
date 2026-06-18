@@ -15,17 +15,17 @@ const TranscriptPage = () => {
             {/* TAB NAVIGATION SECTION */}
             <div className="mx-4 md:mx-10 lg:mx-18 mt-6 md:mt-8 mb-4 md:mb-6">
                 
-                <div className="flex items-center bg-[#E4E7EE]  text-[#111827] text-[18px] md:text-base font-semibold p-1 rounded-xl w-fit">
+                <div className="flex items-center bg-[#E4E7EE] dark:bg-gray-800 text-[#111827] dark:text-gray-100 text-[18px] md:text-base font-semibold p-1 rounded-xl w-fit transition-colors duration-300">
                     
                     {/* Transcript */}
                     <NavLink
                         to="/dashboard/transcript"
                         end
                         className={({ isActive }) =>
-                            `px-4 py-2 rounded-lg transition ${
+                            `px-4 py-2 rounded-lg transition-all ${
                                 isActive
-                                    ? "bg-white text-gray-900"
-                                    : "text-[#111827] hover:text-gray-700"
+                                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                                    : "text-[#111827] dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                             }`
                         }
                     >
@@ -36,10 +36,10 @@ const TranscriptPage = () => {
                     <NavLink
                         to="/dashboard/transcript/summary"
                         className={({ isActive }) =>
-                            `px-4 py-2 rounded-lg transition ${
+                            `px-4 py-2 rounded-lg transition-all ${
                                 isActive
-                                    ? "bg-white text-gray-900"
-                                    : "text-[#111827] hover:text-gray-700"
+                                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                                    : "text-[#111827] dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                             }`
                         }
                     >
@@ -50,10 +50,10 @@ const TranscriptPage = () => {
                     <NavLink
                         to="/dashboard/transcript/todo"
                         className={({ isActive }) =>
-                            `px-4 py-2 rounded-lg transition ${
+                            `px-4 py-2 rounded-lg transition-all ${
                                 isActive
-                                    ? "bg-white text-gray-900"
-                                    : "text-[#111827] hover:text-gray-700"
+                                    ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm"
+                                    : "text-[#111827] dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
                             }`
                         }
                     >

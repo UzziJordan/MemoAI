@@ -14,7 +14,7 @@ const ForgotPassword = () => {
             <HeroSection />
             
             {/* FORM SECTION: Password Reset Interface */}
-            <div className="lg:w-1/2 w-full bg-gray-100 flex items-center justify-center">
+            <div className="lg:w-1/2 w-full bg-gray-100 dark:bg-gray-950 flex items-center justify-center transition-colors duration-300">
                 <ForgotPasswordForm />
             </div>
         </div>

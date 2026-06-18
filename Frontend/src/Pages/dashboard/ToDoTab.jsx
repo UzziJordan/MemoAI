@@ -4,12 +4,14 @@ import { FiCheckCircle, FiCircle, FiCalendar, FiPlus, FiClock, FiZap, FiArrowRig
 import { api } from '../../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { useTheme } from "../../context/ThemeContext";
 
 /**
  * ToDoTab Component
  * Purpose: Manages action items specifically associated with a particular recording.
  */
 const ToDoTab = () => {
+    const { isDarkMode } = useTheme();
 
     // ================= STATE & HOOKS =================
     const [recording, setRecording] = useState(null);       // The recording object
@@ -138,7 +140,7 @@ const ToDoTab = () => {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="space-y-8 text-geist font-geist pb-20"
+            className="space-y-8 text-geist font-geist pb-20 transition-colors duration-300"
         >
 
             {/* HEADER SECTION */}
@@ -174,7 +176,7 @@ const ToDoTab = () => {
             <div className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-1.5 h-6 bg-orange-400 rounded-full" />
-                    <h3 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Required Actions</h3>
+                    <h3 className="text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Required Actions</h3>
                 </div>
 
                 <LayoutGroup>
@@ -184,7 +186,7 @@ const ToDoTab = () => {
                                 <motion.div 
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="bg-gray-50 border-2 border-dashed border-gray-100 rounded-3xl p-12 text-center text-gray-400"
+                                    className="bg-gray-50 dark:bg-gray-900/50 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-3xl p-12 text-center text-gray-400 dark:text-gray-500"
                                 >
                                     <p className="text-sm font-bold">All caught up! No pending tasks.</p>
                                     <p className="text-[10px] uppercase font-black tracking-widest mt-2">Nice work!</p>
@@ -198,21 +200,21 @@ const ToDoTab = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, scale: 0.95 }}
                                         onClick={() => toggleTodo(todo._id)}
-                                        className="bg-white border-2 border-gray-50 rounded-2xl p-6 flex items-center gap-6 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-900/5 transition-all cursor-pointer group"
+                                        className="bg-white dark:bg-gray-900 border-2 border-gray-50 dark:border-gray-800 rounded-2xl p-6 flex items-center gap-6 hover:border-blue-200 dark:hover:border-blue-800 hover:shadow-xl hover:shadow-blue-900/5 dark:hover:shadow-black/20 transition-all cursor-pointer group"
                                     >
-                                        <div className="text-2xl text-gray-200 group-hover:text-blue-600 transition-colors">
+                                        <div className="text-2xl text-gray-200 dark:text-gray-700 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                                             <FiCircle />
                                         </div>
                                         <div className="flex-1">
-                                            <p className="text-gray-800 font-bold leading-tight">{todo.task || todo.text}</p>
+                                            <p className="text-gray-800 dark:text-gray-100 font-bold leading-tight transition-colors">{todo.task || todo.text}</p>
                                             <div className="flex items-center gap-3 mt-2">
-                                                <span className="bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg font-black uppercase text-[9px] tracking-wider border border-indigo-100">AI Identified</span>
-                                                <span className="flex items-center gap-1.5 italic text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-                                                    <FiCalendar size={10} className="text-blue-500" /> ASAP
+                                                <span className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-lg font-black uppercase text-[9px] tracking-wider border border-indigo-100 dark:border-indigo-800">AI Identified</span>
+                                                <span className="flex items-center gap-1.5 italic text-[10px] font-bold text-gray-300 dark:text-gray-600 uppercase tracking-widest">
+                                                    <FiCalendar size={10} className="text-blue-500 dark:text-blue-400" /> ASAP
                                                 </span>
                                             </div>
                                         </div>
-                                        <div className="text-blue-600 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                        <div className="text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-300">
                                             <FiArrowRight size={20} />
                                         </div>
                                     </motion.div>
@@ -227,7 +229,7 @@ const ToDoTab = () => {
             <div className="space-y-4 pt-4 pb-10">
                 <div className="flex items-center gap-3 mb-4">
                     <div className="w-1.5 h-6 bg-green-500 rounded-full" />
-                    <h3 className="text-sm font-black text-gray-400 uppercase tracking-[0.2em]">Finalized</h3>
+                    <h3 className="text-sm font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em]">Finalized</h3>
                 </div>
 
                 <LayoutGroup>
@@ -241,13 +243,13 @@ const ToDoTab = () => {
                                     animate={{ opacity: 0.6 }}
                                     exit={{ opacity: 0 }}
                                     onClick={() => toggleTodo(todo._id)}
-                                    className="bg-white/50 border-2 border-transparent rounded-2xl p-6 flex items-center gap-6 cursor-pointer hover:opacity-100 transition-all group"
+                                    className="bg-white/50 dark:bg-gray-900/30 border-2 border-transparent rounded-2xl p-6 flex items-center gap-6 cursor-pointer hover:opacity-100 transition-all group"
                                 >
-                                    <div className="text-2xl text-green-500">
+                                    <div className="text-2xl text-green-500 dark:text-green-400">
                                         <FiCheckCircle />
                                     </div>
                                     <div className="flex-1">
-                                        <p className="text-gray-500 font-bold line-through leading-tight">{todo.task || todo.text}</p>
+                                        <p className="text-gray-500 dark:text-gray-400 font-bold line-through leading-tight transition-colors">{todo.task || todo.text}</p>
                                     </div>
                                 </motion.div>
                             ))}
@@ -256,10 +258,10 @@ const ToDoTab = () => {
                 </LayoutGroup>
 
                 <motion.button 
-                    whileHover={{ scale: 1.02, backgroundColor: "#F9FAFB", borderColor: "#DBEAFE" }}
+                    whileHover={{ scale: 1.02, backgroundColor: isDarkMode ? "#111827" : "#F9FAFB", borderColor: isDarkMode ? "#1e3a8a" : "#DBEAFE" }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate("/dashboard/todo")} 
-                    className="w-full mt-8 py-5 border-2 border-dashed border-gray-100 rounded-3xl text-gray-300 font-black uppercase tracking-[0.2em] text-[11px] hover:text-blue-600 transition-all flex items-center justify-center gap-3"
+                    className="w-full mt-8 py-5 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-3xl text-gray-300 dark:text-gray-600 font-black uppercase tracking-[0.2em] text-[11px] hover:text-blue-600 dark:hover:text-blue-400 transition-all flex items-center justify-center gap-3"
                 >
                     <FiPlus size={18} /> Add Manual Task
                 </motion.button>

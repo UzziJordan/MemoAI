@@ -92,14 +92,14 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 15, scale: 0.95 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="absolute top-14 right-0 w-[320px] md:w-[400px] bg-white border border-gray-100 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] z-[100] overflow-hidden"
+          className="absolute top-14 right-0 w-[320px] md:w-[400px] bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] z-[100] overflow-hidden"
         >
           {/* Header */}
-          <div className="flex justify-between items-center px-6 py-5 bg-gray-50/50 border-b border-gray-100">
-            <h3 className="font-extrabold text-gray-800 tracking-tight">Activity Alerts</h3>
+          <div className="flex justify-between items-center px-6 py-5 bg-gray-50/50 dark:bg-gray-800/50 border-b border-gray-100 dark:border-gray-800">
+            <h3 className="font-extrabold text-gray-800 dark:text-gray-100 tracking-tight">Activity Alerts</h3>
             <button 
                 onClick={markAllAsRead}
-                className="text-[10px] font-extrabold text-blue-600 hover:text-blue-700 uppercase tracking-widest bg-blue-50 px-2 py-1 rounded-md transition-colors"
+                className="text-[10px] font-extrabold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 uppercase tracking-widest bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-md transition-colors"
             >
                 Mark all read
             </button>
@@ -112,22 +112,22 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
                  <motion.div 
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                    className="w-6 h-6 border-2 border-blue-100 border-t-blue-600 rounded-full"
+                    className="w-6 h-6 border-2 border-blue-100 dark:border-gray-800 border-t-blue-600 rounded-full"
                 />
-                <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Loading...</p>
+                <p className="text-gray-400 dark:text-gray-500 text-xs font-bold uppercase tracking-widest">Loading...</p>
               </div>
             ) : notifications.length === 0 ? (
               <div className="p-12 text-center flex flex-col items-center gap-4">
-                <div className="p-5 bg-gray-50 rounded-full text-gray-200">
+                <div className="p-5 bg-gray-50 dark:bg-gray-800 rounded-full text-gray-200 dark:text-gray-700">
                     <FiBell size={40} />
                 </div>
                 <div className="space-y-1">
-                    <p className="text-gray-500 font-bold text-sm">All caught up!</p>
-                    <p className="text-gray-400 text-[11px] px-6">New updates about your recordings will appear here.</p>
+                    <p className="text-gray-500 dark:text-gray-400 font-bold text-sm">All caught up!</p>
+                    <p className="text-gray-400 dark:text-gray-500 text-[11px] px-6">New updates about your recordings will appear here.</p>
                 </div>
               </div>
             ) : (
-              <div className="divide-y divide-gray-50">
+              <div className="divide-y divide-gray-50 dark:divide-gray-800">
                 <AnimatePresence mode="popLayout">
                   {notifications.map((n) => (
                     <motion.div 
@@ -136,24 +136,24 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       onClick={() => handleNotificationClick(n)}
-                      className={`p-5 flex gap-4 hover:bg-blue-50/30 cursor-pointer transition-all relative group ${!n.read ? 'bg-white' : 'bg-white opacity-80'}`}
+                      className={`p-5 flex gap-4 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 cursor-pointer transition-all relative group ${!n.read ? 'bg-white dark:bg-gray-900' : 'bg-white dark:bg-gray-900 opacity-60'}`}
                     >
-                      {!n.read && <motion.div layoutId="notif-dot" className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-blue-600 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.6)]" />}
+                      {!n.read && <motion.div layoutId="notif-dot" className="absolute left-1.5 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-blue-600 dark:bg-blue-500 rounded-full shadow-[0_0_8px_rgba(37,99,235,0.6)]" />}
                       
-                      <div className={`mt-1 text-xl p-2 rounded-xl h-fit ${!n.read ? 'bg-white shadow-sm border border-gray-50' : 'bg-gray-50'}`}>
+                      <div className={`mt-1 text-xl p-2 rounded-xl h-fit ${!n.read ? 'bg-white dark:bg-gray-800 shadow-sm border border-gray-50 dark:border-gray-700' : 'bg-gray-50 dark:bg-gray-800'}`}>
                         {getIcon(n.type)}
                       </div>
                       
                       <div className="flex-1 min-w-0">
-                        <p className={`text-sm font-bold text-gray-800 tracking-tight ${!n.read ? '' : 'text-gray-600'}`}>{n.title}</p>
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-2 leading-relaxed">{n.message}</p>
-                        <p className="text-[9px] font-bold text-gray-400 mt-3 uppercase tracking-tighter">{new Date(n.createdAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                        <p className={`text-sm font-bold text-gray-800 dark:text-gray-100 tracking-tight ${!n.read ? '' : 'text-gray-600 dark:text-gray-400'}`}>{n.title}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">{n.message}</p>
+                        <p className="text-[9px] font-bold text-gray-400 dark:text-gray-500 mt-3 uppercase tracking-tighter">{new Date(n.createdAt).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                       </div>
 
                       <motion.button 
                         whileHover={{ scale: 1.1, backgroundColor: "#fee2e2", color: "#ef4444" }}
                         onClick={(e) => deleteNotification(e, n._id)}
-                        className="opacity-0 group-hover:opacity-100 p-2 text-gray-300 rounded-lg transition-all"
+                        className="opacity-0 group-hover:opacity-100 p-2 text-gray-300 dark:text-gray-600 rounded-lg transition-all"
                       >
                         <FiTrash2 size={16} />
                       </motion.button>
@@ -165,10 +165,10 @@ const NotificationDropdown = ({ isOpen, onClose }) => {
           </div>
 
           {/* Footer */}
-          <div className="p-4 bg-gray-50 text-center border-t border-gray-100">
+          <div className="p-4 bg-gray-50 dark:bg-gray-800/50 text-center border-t border-gray-100 dark:border-gray-800">
             <button 
               onClick={onClose}
-              className="text-[10px] font-extrabold text-gray-400 hover:text-gray-800 transition-colors uppercase tracking-[0.2em]"
+              className="text-[10px] font-extrabold text-gray-400 dark:text-gray-500 hover:text-gray-800 dark:hover:text-gray-200 transition-colors uppercase tracking-[0.2em]"
             >
               Dismiss
             </button>

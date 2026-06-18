@@ -34,7 +34,7 @@ const Section1 = () => {
 
     // --- RENDER ---
     return (
-        <div className='bg-[#EFF2F9] text-geist pb-[48.28px] px-4 pt-6 flex flex-col justify-between md:px-33 md:pt-12 lg:px-[5vw] lg:pt-22 lg:flex-row overflow-hidden'>
+        <div className='bg-[#EFF2F9] dark:bg-gray-950 text-geist dark:text-gray-100 pb-[48.28px] px-4 pt-6 flex flex-col justify-between md:px-33 md:pt-12 lg:px-[5vw] lg:pt-22 lg:flex-row overflow-hidden transition-colors duration-300'>
             {/* CONTENT CONTAINER */}
             <motion.div 
                 variants={containerVariants}
@@ -45,7 +45,7 @@ const Section1 = () => {
                 {/* BADGE */}
                 <motion.div 
                     variants={itemVariants}
-                    className='bg-[#E9E9FF] w-60.5 h-8.25 text-[#2828FA] rounded-2xl text-center items-center align-middle flex justify-center'
+                    className='bg-[#E9E9FF] dark:bg-blue-900/30 w-60.5 h-8.25 text-[#2828FA] rounded-2xl text-center items-center align-middle flex justify-center'
                 >
                     <p className='text-dm-sans font-extrabold text-[13px] tracking-tight'>• AI-POWERED MEETING NOTES</p>
                 </motion.div>
@@ -53,18 +53,18 @@ const Section1 = () => {
                 {/* HEADING */}
                 <motion.p 
                     variants={itemVariants}
-                    className='text-geist font-extrabold text-[50px] leading-tight mt-6 md:text-[65px] lg:text-[60px] lg:w-110.25'
+                    className='text-geist dark:text-gray-100 font-extrabold text-[50px] leading-tight mt-6 md:text-[65px] lg:text-[60px] lg:w-110.25'
                 >
-                    Your meetings <span className='text-[#2828FA] underline decoration-blue-200'>summarized</span>
+                    Your meetings <span className='text-[#2828FA] underline decoration-blue-200 dark:decoration-blue-900/50'>summarized</span>
                 </motion.p>
                 
                 {/* DESCRIPTION */}
                 <motion.div 
                     variants={itemVariants}
-                    className='text-[#6B7280] text-[16px] w-79 pt-4 md:text-[18px] md:w-110 lg:text-[16px] lg:w-108'
+                    className='text-[#6B7280] dark:text-gray-400 text-[16px] w-79 pt-4 md:text-[18px] md:w-110 lg:text-[16px] lg:w-108'
                 >
                     <p className="font-medium">Memo records your meetings, lectures, and interviews then instantly delivers AI-generated transcripts, smart summaries, and action items. </p>
-                    <p className="mt-2 font-bold text-gray-800 tracking-tight">Stop relistening, Start doing.</p>
+                    <p className="mt-2 font-bold text-gray-800 dark:text-gray-200 tracking-tight">Stop relistening, Start doing.</p>
                 </motion.div>
                 
                 {/* CTA BUTTON */}
@@ -75,7 +75,7 @@ const Section1 = () => {
                     <motion.button 
                         whileHover={{ scale: 1.05, boxShadow: "0 20px 40px -10px rgba(40, 40, 250, 0.3)" }}
                         whileTap={{ scale: 0.95 }}
-                        className='bg-[#2828FA] text-[#FFFFFF] flex text-center items-center align-middle text-[17px] gap-2 px-6 py-2 rounded-2xl h-16 w-fit shadow-xl shadow-blue-100 transition-colors'
+                        className='bg-[#2828FA] text-[#FFFFFF] flex text-center items-center align-middle text-[17px] gap-2 px-6 py-2 rounded-2xl h-16 w-fit shadow-xl shadow-blue-100 dark:shadow-blue-900/20 transition-all'
                     >
                         <img className='w-6 h-6' src={Phone} alt="Phone" />
                         <span className="font-bold">Join the Waitlist</span>
@@ -99,13 +99,13 @@ const Section1 = () => {
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 1 + idx * 0.1 }}
-                                className={`${idx > 0 ? "-ml-3" : ""} w-9 h-9 rounded-full bg-linear-to-br ${user.color} flex items-center justify-center text-white font-bold border-2 border-white shadow-sm`}
+                                className={`${idx > 0 ? "-ml-3" : ""} w-9 h-9 rounded-full bg-linear-to-br ${user.color} flex items-center justify-center text-white font-bold border-2 border-white dark:border-gray-800 shadow-sm`}
                             >
                                 {user.label}
                             </motion.div>
                         ))}
                     </div>
-                    <p className='text-[#6B7280] font-medium'>Join <span className='text-[#1F2937] font-bold'>2,400+</span> early adopters today</p>
+                    <p className='text-[#6B7280] dark:text-gray-400 font-medium'>Join <span className='text-[#1F2937] dark:text-gray-200 font-bold'>2,400+</span> early adopters today</p>
                 </motion.div>
             </motion.div>
             

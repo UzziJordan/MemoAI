@@ -127,7 +127,7 @@ const Summary = () => {
             variants={containerVariants}
             initial="hidden"
             animate="show"
-            className="space-y-8 text-geist pb-20"
+            className="space-y-8 text-geist pb-20 transition-colors duration-300"
         >
             {/* HEADER SECTION */}
             <motion.div 
@@ -163,12 +163,12 @@ const Summary = () => {
             </motion.div>
 
             {/* KEY TAKEAWAYS SECTION */}
-            <motion.div variants={itemVariants} className="bg-white rounded-3xl border-2 border-gray-50 p-10 shadow-xl shadow-blue-900/5">
+            <motion.div variants={itemVariants} className="bg-white dark:bg-gray-900 rounded-3xl border-2 border-gray-50 dark:border-gray-800 p-10 shadow-xl shadow-blue-900/5 dark:shadow-black/20 transition-all duration-300">
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
+                    <div className="p-2.5 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl">
                         <FiZap size={20} />
                     </div>
-                    <h3 className="font-black text-gray-800 text-xl tracking-tight">Executive Summary</h3>
+                    <h3 className="font-black text-gray-800 dark:text-gray-100 text-xl tracking-tight transition-colors">Executive Summary</h3>
                 </div>
 
                 <div className="space-y-6">
@@ -183,10 +183,10 @@ const Summary = () => {
                                         transition={{ delay: index * 0.1 }}
                                         className="flex gap-6 items-start group"
                                     >
-                                        <div className="w-8 h-8 bg-gray-50 text-gray-400 group-hover:bg-blue-600 group-hover:text-white rounded-full flex items-center justify-center text-xs font-black shrink-0 transition-all duration-300 shadow-sm">
+                                        <div className="w-8 h-8 bg-gray-50 dark:bg-gray-800 text-gray-400 dark:text-gray-500 group-hover:bg-blue-600 group-hover:text-white rounded-full flex items-center justify-center text-xs font-black shrink-0 transition-all duration-300 shadow-sm">
                                             {index + 1}
                                         </div>
-                                        <p className="text-gray-700 leading-relaxed text-lg font-medium group-hover:text-gray-900 transition-colors">
+                                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
                                             {point.trim()}.
                                         </p>
                                     </motion.div>
@@ -196,26 +196,26 @@ const Summary = () => {
                             <motion.div 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                className="flex flex-col items-center justify-center py-10 bg-gray-50/50 rounded-2xl border-2 border-dashed border-gray-100"
+                                className="flex flex-col items-center justify-center py-10 bg-gray-50/50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-100 dark:border-gray-800"
                             >
                                 {recording.status === 'processing' ? (
                                     <div className="flex flex-col items-center gap-4">
                                         <motion.div 
                                             animate={{ rotate: 360 }}
                                             transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                                            className="w-8 h-8 border-4 border-blue-100 border-t-blue-600 rounded-full"
+                                            className="w-8 h-8 border-4 border-blue-100 dark:border-gray-800 border-t-blue-600 rounded-full"
                                         />
-                                        <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">AI is analyzing your memo...</p>
+                                        <p className="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest text-[10px]">AI is analyzing your memo...</p>
                                     </div>
                                 ) : (
                                     <div className="text-center">
-                                        <p className="text-gray-400 font-bold mb-6">No summary points could be extracted.</p>
+                                        <p className="text-gray-400 dark:text-gray-500 font-bold mb-6">No summary points could be extracted.</p>
                                         <motion.button 
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.95 }}
                                             onClick={handleRetryAI}
                                             disabled={retrying}
-                                            className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 shadow-xl shadow-blue-100 transition-all"
+                                            className="bg-blue-600 text-white px-8 py-3 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center gap-3 shadow-xl shadow-blue-100 dark:shadow-blue-900/20 transition-all"
                                         >
                                             {retrying ? "RETRIYING..." : <><FiRefreshCw /> RETRY AI ANALYSIS</>}
                                         </motion.button>
@@ -231,43 +231,43 @@ const Summary = () => {
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <motion.div 
                     whileHover={{ y: -5 }}
-                    className="bg-white rounded-3xl border-2 border-gray-50 p-8 shadow-lg shadow-blue-900/5 transition-all"
+                    className="bg-white dark:bg-gray-900 rounded-3xl border-2 border-gray-50 dark:border-gray-800 p-8 shadow-lg shadow-blue-900/5 dark:shadow-black/20 transition-all"
                 >
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
                         <FiCheck className="text-green-500" /> Highlights
                     </p>
                     
                     <div className="space-y-4">
                         <div className="flex gap-4 items-center">
                             <div className="w-2 h-2 bg-green-500 rounded-full" />
-                            <p className="text-gray-700 font-bold">Captured {formatDuration(recording.duration)} of high-fidelity audio.</p>
+                            <p className="text-gray-700 dark:text-gray-300 font-bold transition-colors">Captured {formatDuration(recording.duration)} of high-fidelity audio.</p>
                         </div>
                         <div className="flex gap-4 items-center">
                             <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                            <p className="text-gray-700 font-bold">Processed with Gemini 2.5 Flash logic.</p>
+                            <p className="text-gray-700 dark:text-gray-300 font-bold transition-colors">Processed with Gemini 2.5 Flash logic.</p>
                         </div>
                     </div>
                 </motion.div>
 
                 <motion.div 
                     whileHover={{ y: -5 }}
-                    className="bg-white rounded-3xl border-2 border-gray-50 p-8 shadow-lg shadow-blue-900/5 transition-all"
+                    className="bg-white dark:bg-gray-900 rounded-3xl border-2 border-gray-50 dark:border-gray-800 p-8 shadow-lg shadow-blue-900/5 dark:shadow-black/20 transition-all"
                 >
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
-                        <FiCpu className="text-blue-500" /> Processing Stack
+                    <p className="text-[10px] font-black text-gray-400 dark:text-gray-500 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
+                        <FiCpu className="text-blue-500 dark:text-blue-400" /> Processing Stack
                     </p>
-                    <div className="space-y-3 font-bold text-sm">
-                        <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                            <span className="text-gray-500">TRANSCRIPTION</span>
-                            <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-lg text-[11px]">AssemblyAI</span>
+                    <div className="space-y-3 font-bold text-sm transition-colors">
+                        <div className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-gray-800">
+                            <span className="text-gray-500 dark:text-gray-400">TRANSCRIPTION</span>
+                            <span className="bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-3 py-1 rounded-lg text-[11px]">AssemblyAI</span>
                         </div>
-                        <div className="flex justify-between items-center py-2 border-b border-gray-50">
-                            <span className="text-gray-500">REASONING</span>
-                            <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-lg text-[11px]">Gemini 2.5</span>
+                        <div className="flex justify-between items-center py-2 border-b border-gray-50 dark:border-gray-800">
+                            <span className="text-gray-500 dark:text-gray-400">REASONING</span>
+                            <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-lg text-[11px]">Gemini 2.5</span>
                         </div>
                         <div className="flex justify-between items-center py-2">
-                            <span className="text-gray-500">DATABASE</span>
-                            <span className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg text-[11px]">MongoDB Atlas</span>
+                            <span className="text-gray-500 dark:text-gray-400">DATABASE</span>
+                            <span className="bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 px-3 py-1 rounded-lg text-[11px]">MongoDB Atlas</span>
                         </div>
                     </div>
                 </motion.div>

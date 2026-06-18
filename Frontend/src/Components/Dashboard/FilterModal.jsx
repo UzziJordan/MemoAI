@@ -50,16 +50,16 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl relative z-10 overflow-hidden"
+            className="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl p-8 shadow-2xl relative z-10 overflow-hidden border border-gray-100 dark:border-gray-800"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Title */}
-            <h2 className="text-center font-extrabold text-2xl text-gray-800 tracking-tight">Search Filter</h2>
-            <p className="text-center text-gray-400 text-sm mt-1 mb-8">Refine your recordings by category</p>
+            <h2 className="text-center font-extrabold text-2xl text-gray-800 dark:text-gray-100 tracking-tight transition-colors">Search Filter</h2>
+            <p className="text-center text-gray-400 dark:text-gray-500 text-sm mt-1 mb-8">Refine your recordings by category</p>
 
             {/* Tags Section */}
             <div className="mt-7">
-              <p className="text-sm font-bold text-gray-600 mb-4 uppercase tracking-widest">Select Tags</p>
+              <p className="text-sm font-bold text-gray-600 dark:text-gray-400 mb-4 uppercase tracking-widest">Select Tags</p>
               <div className="flex flex-wrap gap-3">
                 {tags.map((tag) => (
                   <motion.button
@@ -69,8 +69,8 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
                     onClick={() => toggleItem(tag, selectedTags, setSelectedTags)}
                     className={`px-5 py-2.5 rounded-xl text-sm font-bold border-2 transition-all duration-200 ${
                       selectedTags.includes(tag)
-                        ? "border-blue-600 text-blue-600 bg-blue-50 shadow-md shadow-blue-100"
-                        : "border-gray-100 text-gray-500 hover:border-blue-200"
+                        ? "border-blue-600 text-blue-600 bg-blue-50 dark:bg-blue-900/20 shadow-md shadow-blue-100 dark:shadow-blue-900/20"
+                        : "border-gray-100 dark:border-gray-800 text-gray-500 dark:text-gray-400 hover:border-blue-200 dark:hover:border-blue-800 bg-white dark:bg-gray-800"
                     }`}
                   >
                     {tag}
@@ -88,12 +88,12 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
                     exit={{ opacity: 0, height: 0, marginTop: 0 }}
                     className="overflow-hidden"
                 >
-                    <label className="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">Custom Tag Name</label>
+                    <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-widest">Custom Tag Name</label>
                     <input 
                     type="text" 
                     value={customTag}
                     onChange={(e) => setCustomTag(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-100 rounded-xl focus:border-blue-500 focus:bg-white focus:outline-none transition-all font-medium"
+                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-xl focus:border-blue-500 focus:bg-white dark:focus:bg-gray-900 focus:outline-none transition-all font-medium text-gray-800 dark:text-gray-200"
                     placeholder="e.g. Brainstorming"
                     />
                 </motion.div>
@@ -106,15 +106,15 @@ const FilterModal = ({ isOpen, onClose, onApply }) => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleApply}
-                className="w-full py-4 rounded-2xl text-white font-bold bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200 transition active:scale-95"
+                className="w-full py-4 rounded-2xl text-white font-bold bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200 dark:shadow-blue-900/20 transition active:scale-95"
               >
                 Apply Filters
               </motion.button>
               
               <motion.button
-                whileHover={{ backgroundColor: "#F9FAFB" }}
+                whileHover={{ backgroundColor: "rgba(0,0,0,0.05)" }}
                 onClick={onClose}
-                className="w-full py-4 rounded-2xl border-2 border-gray-100 text-gray-500 font-bold transition active:scale-95"
+                className="w-full py-4 rounded-2xl border-2 border-gray-100 dark:border-gray-800 text-gray-500 dark:text-gray-400 font-bold transition active:scale-95"
               >
                 Cancel
               </motion.button>

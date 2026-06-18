@@ -35,30 +35,30 @@ const ForgotPasswordForm = () => {
 
     // --- RENDER ---
     return (
-        <div className="bg-white shadow-sm rounded-xl p-10 w-105 text-geist">
+        <div className="bg-white dark:bg-gray-950 shadow-sm dark:shadow-black/20 rounded-xl p-10 w-105 text-geist dark:text-gray-100 transition-colors duration-300">
             {/* BACK NAVIGATION */}
-            <Link to="/Login" className="text-[#2828FA] text-[14px] font-semibold mb-6 inline-block">
+            <Link to="/Login" className="text-[#2828FA] dark:text-blue-400 text-[14px] font-semibold mb-6 inline-block">
                 ← Back to Sign In
             </Link>
             
             {/* ICON INDICATOR */}
-            <div className="bg-[#EFF6FF] h-16 w-16 rounded-lg flex items-center justify-center mb-6">
-                <span className="text-[#3B82F6] text-[28px]">✉</span>
+            <div className="bg-[#EFF6FF] dark:bg-blue-900/20 h-16 w-16 rounded-lg flex items-center justify-center mb-6">
+                <span className="text-[#3B82F6] dark:text-blue-400 text-[28px]">✉</span>
             </div>
             
             {/* TITLE AND DESCRIPTION */}
-            <h2 className="text-[26px] text-[#111827] text-instrument-serif mb-2">
+            <h2 className="text-[26px] text-[#111827] dark:text-gray-100 text-instrument-serif mb-2">
                 Reset your <br />
-                <span className="text-[#2563EB] italic">password.</span>
+                <span className="text-[#2563EB] dark:text-blue-400 italic">password.</span>
             </h2>
             
-            <p className="text-[#9CA3AF] text-[14px] mb-6">
+            <p className="text-[#9CA3AF] dark:text-gray-400 text-[14px] mb-6">
                 Enter your email and we'll send a reset link within 2 minutes.
             </p>
 
             {message.text && (
                 <div className={`mb-6 p-3 rounded-lg text-sm ${
-                    message.type === 'error' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'
+                    message.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400' : 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400'
                 }`}>
                     {message.text}
                 </div>
@@ -66,16 +66,16 @@ const ForgotPasswordForm = () => {
             
             <form onSubmit={handleSubmit}>
                 {/* EMAIL INPUT SECTION */}
-                <p className="mt-6 font-semibold text-[13px] text-[#374151]">Email address</p>
+                <p className="mt-6 font-semibold text-[13px] text-[#374151] dark:text-gray-300 uppercase tracking-widest">Email address</p>
                 
-                <div className="relative w-full mt-2 text-[#D1D5DB]">
+                <div className="relative w-full mt-2 text-[#D1D5DB] dark:text-gray-600">
                     <FaRegEnvelope className="absolute left-4 top-1/2 -translate-y-1/2" />
                     <input
                         type="email"
                         placeholder="malhub@company.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full border border-[#D1D5DB] rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                        className="w-full border border-[#D1D5DB] dark:border-gray-800 bg-white dark:bg-gray-900 rounded-xl pl-12 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black dark:text-white transition-all"
                         disabled={loading}
                     />
                 </div>

@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
 const Section6 = () => {
     // --- RENDER ---
     return (
-        <div className='mt-18 w-full text-geist h-auto overflow-hidden pb-16 lg:pb-0'>
+        <div className='mt-18 w-full text-geist dark:text-gray-100 h-auto overflow-hidden pb-16 lg:pb-0 transition-colors duration-300'>
             {/* MAIN CONTAINER */}
             <div className='flex flex-col justify-center items-center align-middle py-12 gap-10 lg:gap-20 md:pt-5 lg:pt-10 lg:flex-row'>
                 {/* CONTENT SECTION */}
@@ -24,8 +24,8 @@ const Section6 = () => {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className='lg:pt-4'
                     >
-                        <h1 className='font-extrabold text-[32px] md:text-[40px] leading-tight text-gray-800 lg:mx-0'>Works Everywhere You Speak</h1>
-                        <p className='text-[16px] text-[#6B7280] mt-6 font-medium leading-relaxed'>Meetings, lectures, interviews, brainstorms. Memo handles any audio scenario. Works offline, in noisy rooms, and across multiple speakers with speaker detection.</p>
+                        <h1 className='font-extrabold text-[32px] md:text-[40px] leading-tight text-gray-800 dark:text-gray-100 lg:mx-0'>Works Everywhere You Speak</h1>
+                        <p className='text-[16px] text-[#6B7280] dark:text-gray-400 mt-6 font-medium leading-relaxed'>Meetings, lectures, interviews, brainstorms. Memo handles any audio scenario. Works offline, in noisy rooms, and across multiple speakers with speaker detection.</p>
                     </motion.div>
                     
                     {/* BUTTONS */}
@@ -36,7 +36,7 @@ const Section6 = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.4 }}
                             whileHover={{ scale: 1.05, y: -5 }}
-                            className='bg-[#2828FA] text-[#FFFFFF] text-center px-8 h-14 flex items-center justify-center rounded-2xl shadow-xl shadow-blue-100 cursor-default group'
+                            className='bg-[#2828FA] text-[#FFFFFF] text-center px-8 h-14 flex items-center justify-center rounded-2xl shadow-xl shadow-blue-100 dark:shadow-blue-900/20 cursor-default group transition-all'
                         >
                             <p className='flex gap-3 items-center font-bold'>
                                 <motion.img 
@@ -54,9 +54,9 @@ const Section6 = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.5 }}
                             whileHover={{ scale: 1.05, y: -5 }}
-                            className='bg-white border-2 border-gray-100 text-[#000000] text-center px-8 h-14 flex items-center justify-center rounded-2xl shadow-sm hover:shadow-lg transition-all cursor-default group'
+                            className='bg-white dark:bg-gray-900 border-2 border-gray-100 dark:border-gray-800 text-[#000000] dark:text-gray-100 text-center px-8 h-14 flex items-center justify-center rounded-2xl shadow-sm hover:shadow-lg dark:hover:shadow-black/40 transition-all cursor-default group'
                         >
-                            <p className='flex gap-3 items-center font-bold text-gray-700'>
+                            <p className='flex gap-3 items-center font-bold text-gray-700 dark:text-gray-300'>
                                 <motion.img 
                                     animate={{ y: [0, -3, 0] }}
                                     transition={{ repeat: Infinity, duration: 1.5 }}

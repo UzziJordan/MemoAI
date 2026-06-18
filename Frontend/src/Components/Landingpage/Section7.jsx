@@ -50,14 +50,14 @@ const Section7 = () => {
 
     // --- RENDER ---
     return (
-        <div className='bg-[#EFF2F9] h-auto px-5 md:pl-25 md:pr-10 flex flex-col pt-16 pb-20 text-geist overflow-hidden'>
+        <div className='bg-[#EFF2F9] dark:bg-gray-950 h-auto px-5 md:pl-25 md:pr-10 flex flex-col pt-16 pb-20 text-geist dark:text-gray-100 overflow-hidden transition-colors duration-300'>
             {/* HEADER SECTION */}
             <div className='w-full max-w-2xl text-center lg:text-start'>
                 <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className='w-40 h-10 mx-auto lg:mx-0 bg-[#D4D4FE] text-[#2828FA] rounded-4xl font-extrabold text-[14px] flex items-center justify-center'
+                    className='w-40 h-10 mx-auto lg:mx-0 bg-[#D4D4FE] dark:bg-[#2828FA]/20 text-[#2828FA] rounded-4xl font-extrabold text-[14px] flex items-center justify-center'
                 >
                     <p>EARLY REACTIONS</p>
                 </motion.div>
@@ -66,7 +66,7 @@ const Section7 = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 }}
-                    className='font-extrabold text-[#1F2937] text-[32px] md:text-[45px] leading-tight pt-4'
+                    className='font-extrabold text-[#1F2937] dark:text-gray-100 text-[32px] md:text-[45px] leading-tight pt-4'
                 >
                     What People Are Saying About <span className="text-[#2828FA]">Memo</span>
                 </motion.h1>
@@ -75,7 +75,7 @@ const Section7 = () => {
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 }}
-                    className='text-[#6B7280] text-[18px] mt-4 font-medium'
+                    className='text-[#6B7280] dark:text-gray-400 text-[18px] mt-4 font-medium'
                 >
                     Early testers have been putting Memo through its paces. Here's what they're telling us.
                 </motion.p>
@@ -94,7 +94,7 @@ const Section7 = () => {
                         key={idx}
                         variants={cardVariants}
                         whileHover={{ y: -10, scale: 1.02 }}
-                        className={`${idx === 1 ? "bg-white shadow-xl shadow-blue-50" : "bg-transparent border border-[#D4D4FE]"} flex-1 rounded-4xl p-8 transition-all duration-300 group`}
+                        className={`${idx === 1 ? "bg-white dark:bg-gray-900 shadow-xl shadow-blue-50 dark:shadow-black/20" : "bg-transparent border border-[#D4D4FE] dark:border-gray-800"} flex-1 rounded-4xl p-8 transition-all duration-300 group`}
                     >
                         <div className='flex flex-col gap-0'>
                             <motion.p 
@@ -104,18 +104,18 @@ const Section7 = () => {
                             >
                                 " 
                             </motion.p>
-                            <p className='font-bold text-[18px] leading-relaxed text-[#1F2937] group-hover:text-blue-900 transition-colors'>
+                            <p className='font-bold text-[18px] leading-relaxed text-[#1F2937] dark:text-gray-200 group-hover:text-blue-900 dark:group-hover:text-blue-400 transition-colors'>
                                 {t.text}
                             </p>
                         </div>
-                        <div className='mt-8 flex items-center gap-4 border-t border-gray-100 pt-6'>
-                            <div className='h-12 w-12 bg-linear-to-br from-gray-100 to-gray-200 rounded-full flex items-center justify-center font-bold text-gray-400'>
+                        <div className='mt-8 flex items-center gap-4 border-t border-gray-100 dark:border-gray-800 pt-6'>
+                            <div className='h-12 w-12 bg-linear-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-full flex items-center justify-center font-bold text-gray-400'>
                                 {t.name[0]}
                             </div>
                             <div className='flex-col'>
                                 <p className='text-[#2828FA] font-extrabold text-[16px]'>{t.name}</p>
-                                <p className='text-[#6B7280] text-[12px] font-bold uppercase tracking-wider'>
-                                    {t.role} at <span className='text-gray-400'>{t.school}</span>
+                                <p className='text-[#6B7280] dark:text-gray-400 text-[12px] font-bold uppercase tracking-wider'>
+                                    {t.role} at <span className='text-gray-400 dark:text-gray-500'>{t.school}</span>
                                 </p>
                             </div>
                         </div>

@@ -88,20 +88,20 @@ const SignupForm = () => {
             variants={formVariants}
             initial="hidden"
             animate="visible"
-            className="bg-white mt-8 pl-10 md:pl-0 py-10 w-105 text-geist"
+            className="bg-white dark:bg-gray-950 mt-8 pl-10 md:pl-0 py-10 w-105 text-geist dark:text-gray-100 transition-colors duration-300"
         >
             
             {/* TOGGLE SECTION: Switch between Sign In and Create Account */}
-            <div className="flex bg-[#F3F4F6] rounded-xl p-1 h-12 text-[10px] md:text-[14px] font-bold">
+            <div className="flex bg-[#F3F4F6] dark:bg-gray-900 rounded-xl p-1 h-12 text-[10px] md:text-[14px] font-bold">
                 <Link to="/Login" className="flex-1">
                     <motion.button 
                         whileHover={{ color: "#2828FA" }}
-                        className="w-full h-full py-1 text-[#9CA3AF]"
+                        className="w-full h-full py-1 text-[#9CA3AF] dark:text-gray-500"
                     >
                         Sign in
                     </motion.button>
                 </Link>
-                <button className="bg-white rounded-lg px-15 md:px-19 py-1 shadow-sm text-[#111827]">
+                <button className="bg-white dark:bg-gray-800 rounded-lg px-15 md:px-19 py-1 shadow-sm text-[#111827] dark:text-gray-100 transition-colors">
                     Create Account
                 </button>
             </div>
@@ -109,61 +109,59 @@ const SignupForm = () => {
             {/* TITLE SECTION */}
             <h2 className="text-[32px] font-extrabold tracking-tight mt-15 mb-1 leading-tight">
                 Start for <br />
-                <span className="text-[#2828FA] italic">free today.</span>
+                <span className="text-[#2828FA] dark:text-blue-400 italic">free today.</span>
             </h2>
 
-            <p className="text-[#9CA3AF] text-[15px] font-medium">Join 2,400+ users capturing better insights.</p>
+            <p className="text-[#9CA3AF] dark:text-gray-400 text-[15px] font-medium">Join 2,400+ users capturing better insights.</p>
 
             {/* SIGNUP FORM SECTION */}
             <form onSubmit={handleSubmit} className="mt-8">
 
                 {/* Google OAuth Button */}
-                <div className="w-full mb-8">
+                <div className="w-full mb-8 dark:invert-[0.9] dark:hue-rotate-180 transition-all">
                     <GoogleLogin
-                        clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
                         onSuccess={handleGoogleSuccess}
                         onError={() => {
                             console.log('Login Failed');
                             alert("Google Login Failed");
                         }}
-                        useOneTap
                         width="420"
                     />
                 </div>
 
                 {/* Form Divider */}
                 <div className='flex justify-between items-center text-center opacity-50'>
-                    <div className='h-0.5 flex-1 bg-[#E5E7EB]'></div>
-                    <div className="text-[11px] font-bold text-[#D1D5DB] px-4 uppercase tracking-widest">or details</div>
-                    <div className='h-0.5 flex-1 bg-[#E5E7EB]'></div>
+                    <div className='h-0.5 flex-1 bg-[#E5E7EB] dark:bg-gray-800 transition-colors'></div>
+                    <div className="text-[11px] font-bold text-[#D1D5DB] dark:text-gray-600 px-4 uppercase tracking-widest">or details</div>
+                    <div className='h-0.5 flex-1 bg-[#E5E7EB] dark:bg-gray-800 transition-colors'></div>
                 </div>
 
                 {/* Name Inputs */}
                 <div className='flex mt-8 gap-4'>
                     <div className='w-full'>
-                        <label className="font-bold text-[12px] text-[#374151] uppercase tracking-widest">First Name</label>
+                        <label className="font-bold text-[12px] text-[#374151] dark:text-gray-300 uppercase tracking-widest">First Name</label>
                         <div className="relative mt-2 group">
-                            <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#2828FA] transition-colors" />
+                            <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600 group-focus-within:text-[#2828FA] transition-colors" />
                             <input
                                 type="text"
                                 value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                                 placeholder="Philip"
-                                className="w-full border-2 border-gray-100 bg-gray-50 rounded-xl pl-12 py-3 focus:outline-none focus:border-blue-400 focus:bg-white transition-all font-medium"
+                                className="w-full border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-white rounded-xl pl-12 py-3 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-gray-800 transition-all font-medium"
                             />
                         </div>
                     </div>
 
                     <div className='w-full'>
-                        <label className="font-bold text-[12px] text-[#374151] uppercase tracking-widest">Last Name</label>
+                        <label className="font-bold text-[12px] text-[#374151] dark:text-gray-300 uppercase tracking-widest">Last Name</label>
                         <div className="relative mt-2 group">
-                            <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#2828FA] transition-colors" />
+                            <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600 group-focus-within:text-[#2828FA] transition-colors" />
                             <input
                                 type="text"
                                 value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                                 placeholder="Joy"
-                                className="w-full border-2 border-gray-100 bg-gray-50 rounded-xl pl-12 py-3 focus:outline-none focus:border-blue-400 focus:bg-white transition-all font-medium"
+                                className="w-full border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-white rounded-xl pl-12 py-3 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-gray-800 transition-all font-medium"
                             />
                         </div>
                     </div>
@@ -171,30 +169,30 @@ const SignupForm = () => {
 
                 {/* Email Input */}
                 <div className="mt-6">
-                    <label className="font-bold text-[12px] text-[#374151] uppercase tracking-widest">Work Email</label>
+                    <label className="font-bold text-[12px] text-[#374151] dark:text-gray-300 uppercase tracking-widest">Work Email</label>
                     <div className="relative w-full mt-2 group">
-                        <FaRegEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#2828FA] transition-colors" />
+                        <FaRegEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600 group-focus-within:text-[#2828FA] transition-colors" />
                         <input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="mail@gmail.com"
-                            className="w-full border-2 border-gray-100 bg-gray-50 rounded-xl pl-12 pr-4 py-3.5 focus:outline-none focus:border-blue-400 focus:bg-white transition-all font-medium"
+                            className="w-full border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-white rounded-xl pl-12 pr-4 py-3.5 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-gray-800 transition-all font-medium"
                         />
                     </div>
                 </div>
 
                 {/* Password Input */}
                 <div className="mt-6">
-                    <label className="font-bold text-[12px] text-[#374151] uppercase tracking-widest">Create Password</label>
+                    <label className="font-bold text-[12px] text-[#374151] dark:text-gray-300 uppercase tracking-widest">Create Password</label>
                     <div className="relative w-full mt-2 group">
-                        <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-[#2828FA] transition-colors" />
+                        <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 dark:text-gray-600 group-focus-within:text-[#2828FA] transition-colors" />
                         <input
                             type={showPassword ? "text" : "password"}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Min. 8 characters"
-                            className="w-full border-2 border-gray-100 bg-gray-50 rounded-xl pl-12 pr-12 py-3.5 focus:outline-none focus:border-blue-400 focus:bg-white transition-all font-medium"
+                            className="w-full border-2 border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 dark:text-white rounded-xl pl-12 pr-12 py-3.5 focus:outline-none focus:border-blue-400 focus:bg-white dark:focus:bg-gray-800 transition-all font-medium"
                         />
                         
                         {/* Toggle Password Visibility */}
@@ -208,20 +206,20 @@ const SignupForm = () => {
                 </div>
 
                 {/* Terms and Privacy Agreement */}
-                <label className="flex gap-3 text-[13px] mt-6 text-[#6B7280] mb-8 cursor-pointer group">
+                <label className="flex gap-3 text-[13px] mt-6 text-[#6B7280] dark:text-gray-400 mb-8 cursor-pointer group transition-colors">
                     <input
                         type="checkbox"
                         checked={agree}
                         onChange={() => setAgree(!agree)}
-                        className="w-5 h-5 mt-0.5 rounded-md border-2 border-gray-200 accent-[#2828FA]"
+                        className="w-5 h-5 mt-0.5 rounded-md border-2 border-gray-200 dark:border-gray-800 accent-[#2828FA]"
                     />
                     <span className="font-medium leading-tight">
                         I agree to Memo's{" "}
-                        <span className="text-[#2828FA] font-bold hover:underline">
+                        <span className="text-[#2828FA] dark:text-blue-400 font-bold hover:underline">
                             Terms of Service
                         </span>{" "}
                         and{" "}
-                        <span className="text-[#2828FA] font-bold hover:underline">
+                        <span className="text-[#2828FA] dark:text-blue-400 font-bold hover:underline">
                             Privacy Policy
                         </span>.
                     </span>
@@ -233,7 +231,7 @@ const SignupForm = () => {
                     whileTap={{ scale: 0.98 }}
                     type="submit"
                     disabled={loading}
-                    className="w-full py-4 rounded-xl text-white font-bold bg-[#2828FA] shadow-xl shadow-blue-100 hover:bg-[#1D1DFA] transition-all disabled:opacity-50"
+                    className="w-full py-4 rounded-xl text-white font-bold bg-[#2828FA] shadow-xl shadow-blue-100 dark:shadow-blue-900/20 hover:bg-[#1D1DFA] transition-all disabled:opacity-50"
                 >
                     {loading ? "Creating your account..." : "Start my free trial"}
                 </motion.button>

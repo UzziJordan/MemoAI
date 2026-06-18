@@ -1,9 +1,11 @@
 const Recording = require('../models/Recordings');
+const User = require('../models/User');
 const cloudinary = require('cloudinary').v2;
 const multer = require('multer');
 const streamifier = require('streamifier');
 const axios = require('axios');
 const { createNotification } = require('./notification.controller');
+const { sendTranscriptionReadyEmail } = require('../utils/emailService');
 
 // Multer memory storage for Cloudinary upload
 const storage = multer.memoryStorage();
@@ -239,7 +241,7 @@ async function runAiExtraction(recordingId, transcript) {
       summary,
       todoList: todos.map(t => ({ text: t, completed: false })),
       status: 'done'
-    });
+    }, { new: true });
 
     if (recording) {
       await createNotification(
@@ -249,6 +251,16 @@ async function runAiExtraction(recordingId, transcript) {
         "success",
         "/dashboard/transcript"
       );
+
+      // Fetch user and send email
+      try {
+        const user = await User.findById(recording.user);
+        if (user && user.email) {
+          await sendTranscriptionReadyEmail(user.email, user.name, recording);
+        }
+      } catch (emailErr) {
+        console.error('Transcription ready email failed:', emailErr.message);
+      }
     }
     
     console.log(`Manual retry successful for recording: ${recordingId}`);

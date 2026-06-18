@@ -118,7 +118,7 @@ const Searchbar = () => {
 
     // ================= UI =================
     return (
-        <div className='fixed top-0 left-0 md:left-auto w-full md:w-[85vw] h-18 bg-white border-b border-[#CCCCCC] z-30'>
+        <div className='fixed top-0 left-0 md:left-auto w-full md:w-[85vw] h-18 bg-white dark:bg-gray-900 border-b border-[#CCCCCC] dark:border-gray-800 z-30 transition-colors duration-300'>
 
             {/* ================= INNER CONTAINER ================= */}
             <div className='flex items-center justify-between px-4 md:px-10 h-full'>
@@ -131,13 +131,13 @@ const Searchbar = () => {
                     <motion.button 
                         whileTap={{ scale: 0.9 }}
                         onClick={() => setIsSidebarOpen(true)}
-                        className="p-2 md:hidden text-gray-600 hover:bg-gray-100 rounded-lg"
+                        className="p-2 md:hidden text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
                     >
                         <FiMenu size={24} />
                     </motion.button>
 
                     {/* PAGE TITLE */}
-                    <div className='text-[16px] hidden sm:block md:w-28 font-bold text-[#111827] tracking-tight uppercase'>
+                    <div className='text-[16px] hidden sm:block md:w-28 font-bold text-[#111827] dark:text-gray-100 tracking-tight uppercase'>
                         {currentPage}
                     </div>
 
@@ -148,9 +148,9 @@ const Searchbar = () => {
                         <motion.div 
                             initial={false}
                             animate={{ scale: showResults && searchTerm ? 1.02 : 1 }}
-                            className="flex items-center bg-[#F9FAFB] border h-9 border-[#E5E7EB] gap-2 md:gap-3 px-3 md:px-5 rounded-full focus-within:border-blue-400 focus-within:bg-white focus-within:shadow-lg focus-within:shadow-blue-50 transition-all duration-300"
+                            className="flex items-center bg-[#F9FAFB] dark:bg-gray-800 border h-9 border-[#E5E7EB] dark:border-gray-700 gap-2 md:gap-3 px-3 md:px-5 rounded-full focus-within:border-blue-400 focus-within:bg-white dark:focus-within:bg-gray-900 focus-within:shadow-lg focus-within:shadow-blue-50/10 transition-all duration-300"
                         >
-                            <FiSearch className="text-[#374957] text-lg md:text-xl" />
+                            <FiSearch className="text-[#374957] dark:text-gray-400 text-lg md:text-xl" />
 
                             <input
                                 type="text"
@@ -161,7 +161,7 @@ const Searchbar = () => {
                                     setShowResults(true);
                                 }}
                                 onFocus={() => setShowResults(true)}
-                                className="bg-transparent text-[13px] w-full text-[#111827] placeholder-[#9CA3AF] outline-none font-medium"
+                                className="bg-transparent text-[13px] w-full text-[#111827] dark:text-gray-100 placeholder-[#9CA3AF] outline-none font-medium"
                             />
                         </motion.div>
 
@@ -173,7 +173,7 @@ const Searchbar = () => {
                                     initial={{ opacity: 0, y: 10, scale: 0.98 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                                    className="absolute top-11 left-0 w-full bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden z-60"
+                                    className="absolute top-11 left-0 w-full bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-2xl overflow-hidden z-60"
                                 >
 
                                     {results.length > 0 ? (
@@ -181,7 +181,7 @@ const Searchbar = () => {
                                         <div className="py-2">
 
                                             {/* DROPDOWN HEADER */}
-                                            <div className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50">
+                                            <div className="px-5 py-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-50 dark:border-gray-800">
                                                 Matching Recordings
                                             </div>
 
@@ -190,20 +190,20 @@ const Searchbar = () => {
                                                 <div
                                                     key={rec._id}
                                                     onClick={() => handleSelectResult(rec)}
-                                                    className="px-5 py-4 hover:bg-blue-50/50 cursor-pointer flex items-center justify-between group transition-all duration-200"
+                                                    className="px-5 py-4 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 cursor-pointer flex items-center justify-between group transition-all duration-200"
                                                 >
 
                                                     {/* LEFT CONTENT */}
                                                     <div className="flex items-center gap-4">
 
                                                         {/* ICON */}
-                                                        <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
+                                                        <div className="w-10 h-10 bg-blue-50 dark:bg-gray-800 rounded-xl flex items-center justify-center text-blue-500 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
                                                             <FiMic size={18} />
                                                         </div>
 
                                                         {/* TEXT */}
                                                         <div className="min-w-0">
-                                                            <p className="text-sm font-bold text-gray-800 truncate max-w-[200px] md:max-w-64 group-hover:text-blue-600 transition-colors">
+                                                            <p className="text-sm font-bold text-gray-800 dark:text-gray-200 truncate max-w-[200px] md:max-w-64 group-hover:text-blue-600 transition-colors">
                                                                 {rec.title}
                                                             </p>
 
@@ -227,11 +227,11 @@ const Searchbar = () => {
 
                                         // NO RESULTS
                                         <div className="p-10 text-center flex flex-col items-center gap-2">
-                                            <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center text-gray-300 mb-2">
+                                            <div className="w-12 h-12 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center text-gray-300 dark:text-gray-600 mb-2">
                                                 <FiSearch size={24} />
                                             </div>
-                                            <p className="text-gray-500 font-bold text-sm">No matches found</p>
-                                            <p className="text-gray-400 text-xs px-10">Try a different keyword or recording title</p>
+                                            <p className="text-gray-500 dark:text-gray-400 font-bold text-sm">No matches found</p>
+                                            <p className="text-gray-400 dark:text-gray-500 text-xs px-10">Try a different keyword or recording title</p>
                                         </div>
 
                                     )}
@@ -251,7 +251,7 @@ const Searchbar = () => {
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsShareOpen(true)}
-                        className="w-9 h-9 flex items-center justify-center border-2 border-[#E5E7EB] rounded-xl text-[#6B7280] hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300"
+                        className="w-9 h-9 flex items-center justify-center border-2 border-[#E5E7EB] dark:border-gray-700 rounded-xl text-[#6B7280] dark:text-gray-400 hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-300"
                     >
                         <FiShare2 size={18} />
                     </motion.button>
@@ -265,14 +265,14 @@ const Searchbar = () => {
                                 setIsNotifOpen(!isNotifOpen);
                                 if (!isNotifOpen) setUnreadCount(0); // Soft clear
                             }}
-                            className={`w-9 h-9 flex items-center justify-center border-2 border-[#E5E7EB] rounded-xl text-[#6B7280] transition-all duration-300 ${isNotifOpen ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200' : 'hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50'}`}
+                            className={`w-9 h-9 flex items-center justify-center border-2 border-[#E5E7EB] dark:border-gray-700 rounded-xl text-[#6B7280] dark:text-gray-400 transition-all duration-300 ${isNotifOpen ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-200' : 'hover:border-blue-200 dark:hover:border-blue-800 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20'}`}
                         >
                             <FiBell size={18} />
                             {unreadCount > 0 && !isNotifOpen && (
                                 <motion.span 
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
-                                    className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white"
+                                    className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-gray-900"
                                 >
                                     {unreadCount}
                                 </motion.span>
