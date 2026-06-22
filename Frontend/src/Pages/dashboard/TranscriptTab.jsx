@@ -384,6 +384,14 @@ const TranscriptTab = () => {
                                         </p>
                                     </div>
                                 </motion.div>
+                            ) : recording.status === 'failed' ? (
+                                <div className="h-full flex flex-col items-center justify-center text-center py-20">
+                                    <div className="p-6 bg-red-50 dark:bg-red-900/10 rounded-full text-red-500 dark:text-red-400 mb-4">
+                                        <FiX size={40} />
+                                    </div>
+                                    <p className="text-gray-800 dark:text-gray-100 font-bold transition-colors">Couldn't transcribe this audio</p>
+                                    <p className="text-[10px] text-gray-500 dark:text-gray-400 uppercase font-black tracking-widest mt-2 transition-colors">Please try recording again or check your connection.</p>
+                                </div>
                             ) : (
                                 <div className="h-full flex flex-col items-center justify-center text-center py-20">
                                     <motion.div 

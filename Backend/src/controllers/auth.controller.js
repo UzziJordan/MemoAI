@@ -265,7 +265,7 @@ exports.login = async (req, res) => {
     // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Wrong Email or Password' });
     }
 
     // Check if user is verified
@@ -281,7 +281,7 @@ exports.login = async (req, res) => {
     // Compare password
     const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Wrong Email or Password' });
     }
 
     // Create JWT

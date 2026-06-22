@@ -15,8 +15,13 @@ const getHeaders = () => {
 export const api = {
     async request(endpoint, options = {}) {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+        const data = await response.json().catch(() => ({}));
         
         if (response.status === 401) {
+            if (endpoint.startsWith('/auth/')) {
+                throw new Error(data.message || 'Invalid email or password');
+            }
+
             auth.logout();
             // Only redirect if we're not already on a public page
             const publicPages = ['/Login', '/Signup', '/', '/forgot-password', '/reset-password', '/verify-otp'];
@@ -27,11 +32,10 @@ export const api = {
         }
 
         if (!response.ok) {
-            const error = await response.json().catch(() => ({}));
-            throw new Error(error.message || 'Something went wrong');
+            throw new Error(data.message || 'Something went wrong');
         }
 
-        return response.json();
+        return data;
     },
 
     async get(endpoint) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FiCalendar, FiClock, FiZap, FiCheck, FiCpu, FiDatabase, FiRefreshCw } from "react-icons/fi";
+import { FiCalendar, FiClock, FiZap, FiCheck, FiCpu, FiDatabase, FiRefreshCw, FiX } from "react-icons/fi";
 import { api } from '../../lib/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
