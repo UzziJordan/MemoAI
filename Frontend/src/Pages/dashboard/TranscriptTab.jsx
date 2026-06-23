@@ -4,6 +4,7 @@ import wavve from '../../Images/wavve.svg';
 import playi from '../../Images/frplay.svg';
 import pausei from '../../Images/frpause.svg'
 import { api } from '../../lib/api';
+import { getRecordingStatusMeta, isRecordingActive } from '../../lib/recordingStatus';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from "../../context/ThemeContext";
 
@@ -51,7 +52,7 @@ const TranscriptTab = () => {
                 setNewTitle(response.recording.title);
 
                 // If still processing, check again in 5 seconds
-                if (response.recording.status === 'processing') {
+                if (isRecordingActive(response.recording.status)) {
                     setTimeout(fetchRecording, 5000);
                 }
             } catch (error) {
@@ -181,6 +182,8 @@ const TranscriptTab = () => {
             </div>
         );
     }
+
+    const statusMeta = getRecordingStatusMeta(recording.status);
 
 
     // ================= MAIN UI RENDER =================
@@ -401,7 +404,7 @@ const TranscriptTab = () => {
                                     >
                                         <FiZap size={40} />
                                     </motion.div>
-                                    <p className="text-gray-400 dark:text-gray-500 font-bold transition-colors">Transcription is in progress...</p>
+                                    <p className="text-gray-400 dark:text-gray-500 font-bold transition-colors">{statusMeta.message}</p>
                                     <p className="text-[10px] text-gray-300 dark:text-gray-600 uppercase font-black tracking-widest mt-2 transition-colors">Checking every 5 seconds</p>
                                 </div>
                             )}

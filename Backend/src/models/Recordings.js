@@ -46,8 +46,8 @@ const recordingSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['processing', 'done', 'failed'],
-    default: 'processing'
+    enum: ['uploaded', 'processing', 'transcribing', 'transcript_ready', 'summarizing', 'complete', 'done', 'failed'],
+    default: 'uploaded'
   }
 }, { timestamps: true });
 

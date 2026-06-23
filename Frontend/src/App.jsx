@@ -9,6 +9,7 @@ import ForgotPassword from './Pages/ForgotPassword';
 import OtpVerification from './Pages/OtpVerification';
 import ResetPassword from './Pages/ResetPassword';
 
+import ProtectedRoute from './Components/Auth/ProtectedRoute';
 import DashboardLayout from './Pages/dashboard/DashboardLayout';
 import Home from './Pages/dashboard/Home';
 import Library from './Pages/dashboard/Library';
@@ -38,7 +39,14 @@ const App = () => {
 
         {/* Dashboard Routes */}
         
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           
           <Route index element={<Home />} />
           <Route path='recording' element={<Recording />} />

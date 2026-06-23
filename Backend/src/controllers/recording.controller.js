@@ -63,7 +63,7 @@ exports.uploadRecording = async (req, res) => {
       duration: Number(duration) || 0,
       audioUrl: uploadResult.secure_url,
       tag: tag || '',
-      status: 'processing'
+      status: 'uploaded'
     });
     console.log(`[Upload] Database record created: ${recording._id}`);
 
@@ -210,8 +210,8 @@ exports.retryAIProcessing = async (req, res) => {
       return res.status(400).json({ message: 'No transcript available to process' });
     }
 
-    // Set to processing and respond immediately
-    recording.status = 'processing';
+    // Set to summarizing and respond immediately
+    recording.status = 'summarizing';
     await recording.save();
 
     // Run AI part only
@@ -228,12 +228,13 @@ exports.retryAIProcessing = async (req, res) => {
 async function runAiExtraction(recordingId, transcript) {
   try {
     console.log(`Manual retry: Extracting summary and todos for: ${recordingId}`);
+    await Recording.findByIdAndUpdate(recordingId, { status: 'summarizing' });
     const { summary, todos } = await extractWithGemini(transcript);
     
     const recording = await Recording.findByIdAndUpdate(recordingId, {
       summary,
       todoList: todos.map(t => ({ text: t, completed: false })),
-      status: 'done'
+      status: 'complete'
     }, { new: true });
 
     if (recording) {
@@ -259,7 +260,7 @@ async function runAiExtraction(recordingId, transcript) {
     console.log(`Manual retry successful for recording: ${recordingId}`);
   } catch (err) {
     console.error('AI retry failed:', err.message);
-    const recording = await Recording.findByIdAndUpdate(recordingId, { status: 'done' }); 
+    const recording = await Recording.findByIdAndUpdate(recordingId, { status: 'complete' }); 
     if (recording) {
         await createNotification(
             recording.user,
@@ -276,6 +277,7 @@ async function runAiExtraction(recordingId, transcript) {
 async function processRecording(recordingId, audioUrl) {
   console.log(`Starting background processing for recording: ${recordingId}`);
   try {
+    await Recording.findByIdAndUpdate(recordingId, { status: 'transcribing' });
     console.log(`Step 1: Requesting transcription from AssemblyAI...`);
     const transcript = await transcribeWithAssemblyAI(audioUrl);
 
@@ -290,7 +292,7 @@ async function processRecording(recordingId, audioUrl) {
     console.log(`Step 2: Transcription complete. Length: ${transcript.length} chars.`);
 
     // IMPORTANT: Save the transcript immediately so it's not lost if Gemini fails
-    const recording = await Recording.findByIdAndUpdate(recordingId, { transcript });
+    const recording = await Recording.findByIdAndUpdate(recordingId, { transcript, status: 'transcript_ready' });
     console.log(`Transcript saved to database for recording: ${recordingId}`);
 
     if (recording) {
@@ -304,6 +306,7 @@ async function processRecording(recordingId, audioUrl) {
     }
 
     console.log(`Step 3: Extracting summary and todos with Gemini...`);
+    await Recording.findByIdAndUpdate(recordingId, { status: 'summarizing' });
     await runAiExtraction(recordingId, transcript);
 
   } catch (err) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiCalendar, FiClock, FiZap, FiCheck, FiCpu, FiDatabase, FiRefreshCw, FiX } from "react-icons/fi";
 import { api } from '../../lib/api';
+import { getRecordingStatusMeta, isRecordingActive } from '../../lib/recordingStatus';
 import { motion, AnimatePresence } from 'framer-motion';
 
 /**
@@ -38,7 +39,7 @@ const Summary = () => {
                 }
 
                 // If still processing, check again in 5 seconds
-                if (data.status === 'processing') {
+                if (isRecordingActive(data.status)) {
                     setTimeout(fetchRecording, 5000);
                 }
             } catch (error) {
@@ -57,7 +58,7 @@ const Summary = () => {
         try {
             setRetrying(true);
             await api.patch(`/recordings/${recording._id}/retry-ai`, {});
-            setRecording({ ...recording, status: 'processing' });
+            setRecording({ ...recording, status: 'summarizing' });
             setTimeout(() => window.location.reload(), 2000);
         } catch (error) {
             console.error("Retry failed:", error);
@@ -119,6 +120,8 @@ const Summary = () => {
             hour: "2-digit", minute: "2-digit", hour12: false,
         });
     };
+
+    const statusMeta = getRecordingStatusMeta(recording.status);
 
 
     // --- MAIN RENDER ---
@@ -198,14 +201,14 @@ const Summary = () => {
                                 animate={{ opacity: 1 }}
                                 className="flex flex-col items-center justify-center py-10 bg-gray-50/50 dark:bg-gray-800/50 rounded-2xl border-2 border-dashed border-gray-100 dark:border-gray-800"
                             >
-                                {recording.status === 'processing' ? (
+                                {isRecordingActive(recording.status) ? (
                                     <div className="flex flex-col items-center gap-4">
                                         <motion.div 
                                             animate={{ rotate: 360 }}
                                             transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                                             className="w-8 h-8 border-4 border-blue-100 dark:border-gray-800 border-t-blue-600 rounded-full"
                                         />
-                                        <p className="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest text-[10px]">AI is analyzing your memo...</p>
+                                        <p className="text-gray-400 dark:text-gray-500 font-bold uppercase tracking-widest text-[10px]">{statusMeta.message}</p>
                                     </div>
                                 ) : (
                                     <div className="text-center">

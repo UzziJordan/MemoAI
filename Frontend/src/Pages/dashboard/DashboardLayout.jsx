@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Outlet, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { Outlet } from "react-router-dom";
 import Sidebar from "../../Components/Dashboard/Sidebar";
-import { auth } from '../../lib/api';
 
 /**
  * DashboardLayout Component
@@ -9,34 +8,6 @@ import { auth } from '../../lib/api';
  */
 const DashboardLayout = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error("No token");
-                }
-                await auth.getProfile();
-                setLoading(false);
-            } catch (error) {
-                // Not authenticated
-                console.error("Auth check failed:", error);
-                navigate('/Login');
-            }
-        };
-        checkAuth();
-    }, [navigate]);
-
-    if (loading) {
-        return (
-            <div className="h-screen flex items-center justify-center bg-[#EFF2F9]">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
-            </div>
-        );
-    }
 
     // --- RENDER ---
     return (

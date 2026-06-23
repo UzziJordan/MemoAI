@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import divrec from "../../Images/divrec.svg";
 import { useNavigate } from "react-router-dom";
 import { api } from '../../lib/api';
+import { getRecordingStatusMeta, isRecordingActive, isRecordingComplete } from '../../lib/recordingStatus';
 import { motion, AnimatePresence } from "framer-motion";
 
 const RecordList = () => {
@@ -145,13 +146,13 @@ const RecordList = () => {
                           <span>{formatDuration(rec.duration)}</span>
 
                           {/* TRANSCRIPT STATUS */}
-                          {rec.transcript ? (
+                          {isRecordingComplete(rec.status) ? (
                             <span className="text-green-500 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider">
                               Ready
                             </span>
                           ) : (
-                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${rec.status === 'processing' ? 'text-blue-500 bg-blue-50 animate-pulse' : 'text-gray-400 bg-gray-50 dark:bg-gray-800'}`}>
-                              {rec.status === 'processing' ? 'Processing...' : 'No transcript'}
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider ${isRecordingActive(rec.status) ? 'text-blue-500 bg-blue-50 animate-pulse' : 'text-gray-400 bg-gray-50 dark:bg-gray-800'}`}>
+                              {isRecordingActive(rec.status) ? getRecordingStatusMeta(rec.status).label : 'No transcript'}
                             </span>
                           )}
                         </div>

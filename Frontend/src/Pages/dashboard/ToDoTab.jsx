@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { FiCheckCircle, FiCircle, FiCalendar, FiPlus, FiClock, FiZap, FiArrowRight } from "react-icons/fi";
 import { api } from '../../lib/api';
+import { getRecordingStatusMeta, isRecordingActive } from '../../lib/recordingStatus';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { useTheme } from "../../context/ThemeContext";
@@ -35,7 +36,7 @@ const ToDoTab = () => {
                 setTodos(data.todoList || []);
 
                 // If still processing, check again in 5 seconds
-                if (data.status === 'processing') {
+                if (isRecordingActive(data.status)) {
                     setTimeout(fetchRecording, 5000);
                 }
             } catch (error) {
@@ -133,6 +134,8 @@ const ToDoTab = () => {
         );
     }
 
+    const statusMeta = getRecordingStatusMeta(recording.status);
+
 
     // ================= MAIN UI RENDER =================
     return (
@@ -188,8 +191,17 @@ const ToDoTab = () => {
                                     animate={{ opacity: 1 }}
                                     className="bg-gray-50 dark:bg-gray-900/50 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-3xl p-12 text-center text-gray-400 dark:text-gray-500"
                                 >
-                                    <p className="text-sm font-bold">All caught up! No pending tasks.</p>
-                                    <p className="text-[10px] uppercase font-black tracking-widest mt-2">Nice work!</p>
+                                    {isRecordingActive(recording.status) ? (
+                                        <>
+                                            <p className="text-sm font-bold">{statusMeta.message}</p>
+                                            <p className="text-[10px] uppercase font-black tracking-widest mt-2">Checking every 5 seconds</p>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p className="text-sm font-bold">All caught up! No pending tasks.</p>
+                                            <p className="text-[10px] uppercase font-black tracking-widest mt-2">Nice work!</p>
+                                        </>
+                                    )}
                                 </motion.div>
                             ) : (
                                 pendingTodos.map((todo) => (

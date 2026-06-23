@@ -178,7 +178,7 @@ export const auth = {
     // Clear all locally saved session data.
     logout() {
         localStorage.removeItem('token');
-        localStorage.removeItem('u  ser');
+        localStorage.removeItem('user');
         localStorage.removeItem('latestRecording');
     },
 

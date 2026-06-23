@@ -1,7 +1,20 @@
 const User = require('../models/User');
+const Recording = require('../models/Recordings');
+const UserTodo = require('../models/UserTodo');
+const Notification = require('../models/Notification');
 const bcrypt = require('bcryptjs');
 const cloudinary = require('../config/cloudinary');
 const streamifier = require('streamifier');
+
+const getCloudinaryPublicId = (url) => {
+    if (!url || !url.includes('/upload/')) return null;
+
+    const uploadPath = url.split('/upload/')[1];
+    if (!uploadPath) return null;
+
+    const pathWithoutVersion = uploadPath.replace(/^v\d+\//, '');
+    return pathWithoutVersion.replace(/\.[^/.]+$/, '');
+};
 
 // Get user profile
 exports.getProfile = async (req, res) => {
@@ -124,12 +137,49 @@ exports.uploadProfileImage = async (req, res) => {
 //Delete user account
 exports.deleteAccount = async (req, res) => {
     try {
+        const userId = req.user.id;
         const user = await User.findById(req.user.id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
-        await User.findByIdAndDelete(req.user.id);
-        res.status(200).json({ message: 'Account deleted successfully' });
+
+        const recordings = await Recording.find({ user: userId }).select('audioUrl');
+        const audioPublicIds = recordings
+            .map((recording) => getCloudinaryPublicId(recording.audioUrl))
+            .filter(Boolean);
+
+        const profileImagePublicId = getCloudinaryPublicId(user.profileImage);
+        const cloudinaryDeletes = [];
+
+        if (profileImagePublicId) {
+            cloudinaryDeletes.push(
+                cloudinary.uploader.destroy(profileImagePublicId, { resource_type: 'image' })
+            );
+        }
+
+        audioPublicIds.forEach((publicId) => {
+            cloudinaryDeletes.push(
+                cloudinary.uploader.destroy(publicId, { resource_type: 'video' })
+            );
+        });
+
+        const cloudinaryResults = await Promise.allSettled(cloudinaryDeletes);
+        cloudinaryResults.forEach((result) => {
+            if (result.status === 'rejected') {
+                console.error('Cloudinary cleanup failed during account deletion:', result.reason);
+            }
+        });
+
+        await Promise.all([
+            Recording.deleteMany({ user: userId }),
+            UserTodo.deleteMany({ user: userId }),
+            Notification.deleteMany({ user: userId }),
+            User.findByIdAndDelete(userId)
+        ]);
+
+        res.status(200).json({
+            message: 'Account and associated data deleted successfully'
+        });
     } catch (err) {
         console.error('Error deleting account', err);
         res.status(500).json({ message: 'Server error' });
