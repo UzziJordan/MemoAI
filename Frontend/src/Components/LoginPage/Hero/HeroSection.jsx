@@ -32,7 +32,7 @@ const HeroSection = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="lg:w-1/2 w-full bg-[#24426A] dark:bg-gray-950 md:px-40 lg:px-20 text-geist text-[#FFFFFF] flex flex-col justify-center lg:justify-normal px-5 py-17.5 overflow-hidden transition-colors duration-300"
+            className="hidden lg:block lg:w-1/2 w-full bg-[#24426A] dark:bg-gray-950 md:px-40 lg:px-20 text-geist text-[#FFFFFF] lg: flex-col justify-center lg:justify-normal px-5 py-17.5 overflow-hidden transition-colors duration-300"
         >
             {/* LOGO SECTION */}
             <motion.div variants={itemVariants}>
